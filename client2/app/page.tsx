@@ -7,11 +7,9 @@ import authClient from "@/lib/auth-client";
 import { Eye, EyeOff } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { redirect, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { ThemeToggle } from "../components/theme-toggle";
-
-import { createAuthClient } from "better-auth/react";
 
 export default function LoginScreen() {
   const [showPassword, setShowPassword] = useState(false);

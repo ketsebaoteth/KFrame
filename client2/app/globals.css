@@ -88,3 +88,26 @@
     @apply bg-background text-foreground;
   }
 }
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+/* Optional: Add a mask effect for the fade */
+.scroller {
+  position: relative;
+  overflow: hidden;
+}
+
+.animate-scroll {
+  animation: scroll var(--animation-duration) linear infinite;
+}
+
+.animate-scroll:hover {
+  animation-play-state: paused; /* Pauses on hover if `pauseOnHover` is true */
+}

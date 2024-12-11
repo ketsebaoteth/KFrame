@@ -17,6 +17,7 @@ import skillRoute from "./routes/skill";
 import publicSkill from "./routes/public/skill";
 import infoRouter from "./routes/info";
 import publicInfo from "./routes/public/info";
+import publicUserRouter from "./routes/public/user";
 
 const app = new Hono();
 app.use(
@@ -54,5 +55,6 @@ app.route("/public/links", publicLink);
 app.route("/public/testimony", publicTestimony);
 app.route("/public/skills", publicSkill);
 app.route("/public/info", publicInfo);
+app.route("/public/user", publicUserRouter);
 
 export default app;

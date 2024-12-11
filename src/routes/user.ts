@@ -7,6 +7,7 @@ import updateUser from "../controllers/user/updateUser";
 const userRouter = new Hono();
 
 userRouter.get("/", getUserData);
+userRouter.get("/:id", getUserData);
 
 userRouter.patch("/", updateUser);
 userRouter.delete("/:id");
