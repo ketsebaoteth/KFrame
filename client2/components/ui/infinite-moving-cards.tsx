@@ -2,6 +2,7 @@
 
 import SkillInterface from "@/interface/skills";
 import { cn } from "@/lib/utils";
+import Image from "next/image";
 import React, { useEffect, useState } from "react";
 
 interface InfiniteMovingCardsProps {
@@ -81,14 +82,15 @@ export const InfiniteMovingCards: React.FC<InfiniteMovingCardsProps> = ({
       )}
       style={{
         display: "flex",
+        justifyContent: "center", // Center the items horizontally
         width: "100%",
       }}
     >
       <ul
         ref={scrollerRef}
         className={cn(
-          "flex min-w-full shrink-0 md:gap-6 gap-2 items-center py-4 w-max flex-nowrap",
-          start && "animate-scroll ",
+          "flex min-w-full md:gap-4 gap-2 items-center py-4 w-max flex-nowrap",
+          start && "animate-scroll",
           pauseOnHover && "hover:[animation-play-state:paused]"
         )}
         style={{
@@ -102,15 +104,17 @@ export const InfiniteMovingCards: React.FC<InfiniteMovingCardsProps> = ({
       >
         {data.map((item) => (
           <li
-            className="w-full relative rounded-2xl px-2 py-6 md:w-[100px] border border-b-0 border-none flex-grow-0"
+            className="w-full relative rounded-2xl px-2 py-6 md:w-[100px] border border-b-0 border-none"
             key={item.id}
           >
             <div className="flex flex-col items-center justify-center gap-2">
               {/* Dynamically render the skill icon */}
-              <img
+              <Image
+                height={200}
+                width={200}
                 src={item.imageUrl}
                 alt={item.name}
-                className="w-6 h-6 text-gray-900 dark:text-white"
+                className=" w-full h-full text-gray-900 dark:text-white"
               />
               <div className="text-center">
                 <p className="text-xs sm:text-sm font-semibold text-gray-900 dark:text-gray-100">

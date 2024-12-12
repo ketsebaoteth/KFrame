@@ -3,9 +3,15 @@ import { CardBody, CardContainer, CardItem } from "../ui/3d-card";
 import ArticlesInterface from "@/interface/articles";
 
 export default function ProjectCard({ data }: { data: ArticlesInterface }) {
+  // Function to trim the description to 200 characters
+  const truncateDescription = (description: string) => {
+    const plainText = description.replace(/<[^>]+>/g, ""); // Strip HTML tags
+    return plainText.length > 500 ? `${plainText.slice(0, 500)}...` : plainText;
+  };
+
   return (
     <CardContainer className="inter-var">
-      <CardBody className="bg-background border-foreground/20 shadow-sm shadow-foreground/20 dark:shadow-foreground/5 relative rounded-md group/card dark:hover:shadow-2xl dark:hover:shadow-white/5 dark:bg-black dark:border-white/[0.2] w-auto sm:w-[19rem] h-auto p-4 border">
+      <CardBody className="bg-background border-foreground/20 shadow-sm shadow-foreground/20 dark:shadow-foreground/5 relative rounded-md group/card dark:hover:shadow-2xl dark:hover:shadow-white/5 dark:bg-black dark:border-white/[0.2] w-auto  h-auto p-4 border">
         <CardItem
           translateZ="50"
           className="text-xl font-bold rounded-md text-foreground dark:text-white"
@@ -14,7 +20,9 @@ export default function ProjectCard({ data }: { data: ArticlesInterface }) {
         </CardItem>
 
         <span
-          dangerouslySetInnerHTML={{ __html: data.description }}
+          dangerouslySetInnerHTML={{
+            __html: truncateDescription(data.description),
+          }}
           className="text-foreground text-xs max-w-xs mt-3 dark:text-foreground/80 overflow-clip"
         />
 

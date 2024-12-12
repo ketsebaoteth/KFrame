@@ -92,7 +92,7 @@ export default function ArticlesPage() {
 
   const editMutation = useMutation({
     mutationFn: async (article: ArticleInterface) => {
-      const { id, userId, ...articleData } = article;
+      const { id, ...articleData } = article;
 
       // Send only the article data without the id
       const response = await axios.patch(

@@ -9,6 +9,7 @@ import { DirectionAwareHover } from "@/components/ui/direction-aware-hover";
 import {
   IconBrandGithub,
   IconBrandLinkedin,
+  IconBrandTelegram,
   IconBrandTwitter,
   IconMail,
 } from "@tabler/icons-react";
@@ -35,6 +36,7 @@ const HomeComponent = ({ params }: { params: { id: string } }) => {
     { key: "projects", url: `${backendUrl}/public/projects/${id}` },
     { key: "articles", url: `${backendUrl}/public/articles/${id}` },
     { key: "skills", url: `${backendUrl}/public/skills/${id}` },
+    { key: "links", url: `${backendUrl}/public/links/${id}` },
   ];
 
   useEffect(() => {
@@ -57,6 +59,7 @@ const HomeComponent = ({ params }: { params: { id: string } }) => {
     projectsResult,
     articlesResult,
     skillResult,
+    linksResult,
   ] = results;
 
   if (results.some((result) => result.isLoading)) {
@@ -112,28 +115,49 @@ const HomeComponent = ({ params }: { params: { id: string } }) => {
 
               <div className="flex justify-center md:justify-normal gap-4 sm:gap-6">
                 <Link
-                  href="#"
+                  href={
+                    linksResult?.data?.github ||
+                    linksResult?.data?.links?.github ||
+                    "#"
+                  }
                   className="text-foreground dark:text-foreground/80 hover:text-teal-500 hover:scale-125 hover:rotate-6 transition-colors"
                 >
                   <IconBrandGithub className="h-10 w-10" />
                   <span className="sr-only">GitHub</span>
                 </Link>
+
                 <Link
-                  href="#"
+                  href={linksResult?.data ? linksResult?.data?.links?.x : "#"}
                   className="text-foreground dark:text-foreground/80 hover:text-teal-500 hover:scale-125 hover:rotate-6 transition-colors"
                 >
                   <IconBrandTwitter className="h-10 w-10" />
                   <span className="sr-only">Twitter</span>
                 </Link>
                 <Link
-                  href="#"
+                  href={
+                    linksResult?.data ? linksResult?.data?.links?.linkedIn : "#"
+                  }
                   className="text-foreground dark:text-foreground/80 hover:text-teal-500 hover:scale-125 hover:rotate-6 transition-colors"
                 >
                   <IconBrandLinkedin className="h-10 w-10" />
                   <span className="sr-only">LinkedIn</span>
                 </Link>
                 <Link
-                  href="#"
+                  href={
+                    linksResult?.data ? linksResult?.data?.links?.telegram : "#"
+                  }
+                  className="text-foreground dark:text-foreground/80 hover:text-teal-500 hover:scale-125 hover:rotate-6 transition-colors"
+                >
+                  <IconBrandTelegram className="h-10 w-10" />
+                  <span className="sr-only">Telegram</span>
+                </Link>
+
+                <Link
+                  href={
+                    linksResult?.data?.email
+                      ? `mailto:${linksResult.data.email}`
+                      : "#"
+                  }
                   className="text-foreground dark:text-foreground/80 hover:text-teal-500 hover:scale-125 hover:rotate-6 transition-colors"
                 >
                   <IconMail className="h-10 w-10" />
@@ -216,7 +240,16 @@ const HomeComponent = ({ params }: { params: { id: string } }) => {
                   Im always open to new opportunities and collaborations. Feel
                   free to reach out!
                 </p>
-                <Button className="bg-foreground/90 dark:bg-background hover:bg-foreground/85 text-white transition-colors">
+                <Button
+                  onClick={() => {
+                    if (linksResult.data.email) {
+                      window.location.href = `mailto:${linksResult.data.email}?subject=Hello&body=I%20would%20like%20to%20contact%20you.`;
+                    } else {
+                      console.log("No email found");
+                    }
+                  }}
+                  className="bg-foreground/90 dark:bg-background hover:bg-foreground/85 text-white transition-colors"
+                >
                   <Mail className="mr-2 h-4 w-4" />
                   Contact Me
                 </Button>

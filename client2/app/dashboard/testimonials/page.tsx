@@ -1,10 +1,6 @@
 "use client";
 
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import {
   Card,
   CardContent,
@@ -13,9 +9,14 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import authClient from "@/lib/auth-client";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import axios from "axios";
+import Image from "next/image";
+import { useState } from "react";
 
 interface Testimonial {
   id: number;
@@ -48,7 +49,7 @@ export default function TestimonialsPage() {
   const {
     data: testimonials,
     isLoading,
-    isError,
+    // isError,
     refetch,
   } = useQuery<Testimonial[]>({
     queryKey: ["testimonials"],
@@ -228,7 +229,9 @@ export default function TestimonialsPage() {
 
             {newTestimonial.imageUrl && (
               <div className="mt-2">
-                <img
+                <Image
+                  width={200}
+                  height={200}
                   src={newTestimonial.imageUrl}
                   alt="Image Preview"
                   className="w-32 h-32 object-cover rounded-full"
@@ -258,8 +261,10 @@ export default function TestimonialsPage() {
           <Card key={testimonial.id}>
             <CardHeader>
               <div className="flex items-center gap-4">
-                <img
-                  src={testimonial.imageUrl}
+                <Image
+                  height={200}
+                  width={200}
+                  src={testimonial.imageUrl as string}
                   alt={testimonial.name}
                   className="w-12 h-12 rounded-full object-cover"
                 />

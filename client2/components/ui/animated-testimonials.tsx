@@ -1,31 +1,26 @@
 "use client";
 
+import TestimonyInterface from "@/interface/testimony";
 import { IconArrowLeft, IconArrowRight } from "@tabler/icons-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
-type Testimonial = {
-  quote: string;
-  name: string;
-  designation: string;
-  src: string;
-};
 export const AnimatedTestimonials = ({
-  testimonials,
-  autoplay = false,
+  autoplay,
+  data,
 }: {
-  testimonials: Testimonial[];
-  autoplay?: boolean;
+  autoplay: boolean;
+  data: TestimonyInterface[];
 }) => {
   const [active, setActive] = useState(0);
 
   const handleNext = () => {
-    setActive((prev) => (prev + 1) % testimonials.length);
+    setActive((prev) => (prev + 1) % data.length);
   };
 
   const handlePrev = () => {
-    setActive((prev) => (prev - 1 + testimonials.length) % testimonials.length);
+    setActive((prev) => (prev - 1 + data.length) % data.length);
   };
 
   const isActive = (index: number) => {
@@ -48,9 +43,9 @@ export const AnimatedTestimonials = ({
         <div>
           <div className="relative h-80 w-full md:h-80">
             <AnimatePresence>
-              {testimonials.map((testimonial, index) => (
+              {data.map((testimonial, index) => (
                 <motion.div
-                  key={testimonial.src}
+                  key={testimonial.id}
                   initial={{
                     opacity: 0,
                     scale: 0.9,
@@ -62,9 +57,7 @@ export const AnimatedTestimonials = ({
                     scale: isActive(index) ? 1 : 0.95,
                     z: isActive(index) ? 0 : -100,
                     rotate: isActive(index) ? 0 : randomRotateY(),
-                    zIndex: isActive(index)
-                      ? 999
-                      : testimonials.length + 2 - index,
+                    zIndex: isActive(index) ? 999 : data.length + 2 - index,
                     y: isActive(index) ? [0, -80, 0] : 0,
                   }}
                   exit={{
@@ -80,7 +73,7 @@ export const AnimatedTestimonials = ({
                   className="absolute inset-0 origin-bottom flex items-center justify-center md:justify-start"
                 >
                   <Image
-                    src={testimonial.src}
+                    src={testimonial.imageUrl ? testimonial.imageUrl : "$"}
                     alt={testimonial.name}
                     width={500}
                     height={500}
@@ -113,18 +106,23 @@ export const AnimatedTestimonials = ({
             }}
           >
             <h3 className="text-2xl font-bold dark:text-white text-black">
-              {testimonials[active].name}
+              {data[active].name}
             </h3>
             <p className="text-sm text-gray-500 dark:text-neutral-500">
-              {testimonials[active].designation}
-              It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing.
+              {data[active].testimony}
+              It is a long established fact that a reader will be distracted by
+              the readable content of a page when looking at its layout. The
+              point of using Lorem Ipsum is that it has a more-or-less normal
+              distribution of letters, as opposed to using Content here, content
+              here, making it look like readable English. Many desktop
+              publishing.
             </p>
             <hr className="my-6 border-dashed border-foreground/40 dark:border-foreground/20" />
             <p className="text-sm text-gray-500 dark:text-neutral-500">
-              {testimonials[active].name as string}
+              {data[active].name as string}
             </p>
             <p className="text-sm text-gray-500 dark:text-neutral-500">
-              {testimonials[active].designation}
+              {data[active].role}
             </p>
           </motion.div>
           <div className="flex gap-4 mt-5">

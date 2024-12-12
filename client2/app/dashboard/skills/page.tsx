@@ -1,11 +1,6 @@
 "use client";
 
-import { useState } from "react";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import {
   Card,
   CardContent,
@@ -14,6 +9,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
@@ -23,6 +20,10 @@ import {
 } from "@/components/ui/select";
 import authClient from "@/lib/auth-client";
 import techOptions from "@/util/techStack";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import Image from "next/image";
+import { useState } from "react";
 
 interface SkillInterface {
   id: number;
@@ -33,7 +34,7 @@ interface SkillInterface {
 export default function SkillsPage() {
   const backendurl = process.env.NEXT_PUBLIC_BACKEND_URL;
   const session = authClient.useSession();
-  const queryClient = useQueryClient();
+  // const queryClient = useQueryClient();
 
   const [selectedTech, setSelectedTech] = useState<string | null>(null);
   const [newSkill, setNewSkill] = useState<SkillInterface>({
@@ -203,7 +204,9 @@ export default function SkillsPage() {
             (skill: { imageUrl: string; name: string; id: number }) => (
               <Card key={skill.id}>
                 <CardContent className="flex flex-col items-center justify-center p-6">
-                  <img
+                  <Image
+                    height={200}
+                    width={200}
                     src={skill.imageUrl}
                     alt={skill.name}
                     className="w-16 h-16 object-contain mb-4"

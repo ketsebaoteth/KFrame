@@ -8,8 +8,8 @@ import ProjectInterface from "@/interface/project";
 
 export function ThreeDCardDemo({ data }: { data: ProjectInterface }) {
   return (
-    <CardContainer className="inter-var">
-      <CardBody className="bg-background border-foreground/20 shadow-sm shadow-foreground/20 dark:shadow-foreground/5 relative rounded-md group/card dark:hover:shadow-2xl dark:hover:shadow-white/5 dark:bg-black dark:border-white/[0.2] w-auto sm:w-[19rem] h-auto p-4 border">
+    <CardContainer className="">
+      <CardBody className="bg-background border-foreground/20 shadow-sm shadow-foreground/20 dark:shadow-foreground/5 rounded-md group/card dark:hover:shadow-2xl dark:hover:shadow-white/5 dark:bg-black dark:border-white/[0.2] w-auto  h-auto p-4 border">
         <CardItem
           translateZ="50"
           className="text-xl font-bold rounded-md text-foreground dark:text-white"
@@ -20,9 +20,9 @@ export function ThreeDCardDemo({ data }: { data: ProjectInterface }) {
         <CardItem translateZ="100" className="w-full mt-4 rounded-md">
           <Image
             src={data.imageUrl}
-            height="1000"
+            height={200}
             width="1000"
-            className="h-36 w-full object-cover rounded-md group-hover/card:shadow-xl"
+            className=" object-cover rounded-md group-hover/card:shadow-xl"
             alt="thumbnail"
           />
         </CardItem>
@@ -30,9 +30,11 @@ export function ThreeDCardDemo({ data }: { data: ProjectInterface }) {
         <CardItem
           as="p"
           translateZ="60"
-          className="text-foreground text-xs max-w-xs mt-3 dark:text-foreground"
+          className="text-foreground text-sm max-w-xs mt-3 dark:text-foreground"
         >
-          {data.description}
+          {data.description.length > 200
+            ? `${data.description.slice(0, 200)}...`
+            : data.description}
         </CardItem>
 
         <CardItem translateZ="40" className="flex gap-1.5 mt-3">
