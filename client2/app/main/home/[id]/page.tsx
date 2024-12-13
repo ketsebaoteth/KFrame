@@ -1,11 +1,12 @@
 "use client";
 
 import { ThreeDCardDemo } from "@/components/app/cardAnimated";
-import { InfiniteMovingCardsDemo } from "@/components/app/horizontalScroll";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Cover } from "@/components/ui/cover";
-import { DirectionAwareHover } from "@/components/ui/direction-aware-hover";
+import { SkillCards } from "@/components/ui/skillCards";
+import ArticlesInterface from "@/interface/articles";
+import ProjectInterface from "@/interface/project";
 import {
   IconBrandGithub,
   IconBrandLinkedin,
@@ -21,8 +22,6 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import GitHubCalendar from "react-github-calendar";
 import ArticleCard from "../../../../components/reuseble/articleCard";
-import ProjectInterface from "@/interface/project";
-import ArticlesInterface from "@/interface/articles";
 
 const HomeComponent = ({ params }: { params: { id: string } }) => {
   const { theme } = useTheme();
@@ -71,24 +70,34 @@ const HomeComponent = ({ params }: { params: { id: string } }) => {
 
   return (
     <div className="min-h-screen text-foreground overflow-x-hidden">
-      <main className="container max-w-full md:max-w-7xl xl:max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <main className="container max-w-full md:max-w-7xl xl:max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         <div className="min-h-[85vh] flex-1 w-full">
           <section className="pt-6 sm:pt-10 hidden md:block">
             {mounted && (
-              <GitHubCalendar
-                username="yeabnoah"
-                theme={{
-                  light: [
-                    "#f0f0f0",
-                    "#9be9a8",
-                    "#40c463",
-                    "#30a14e",
-                    "#216e39",
-                  ],
-                  dark: ["#161b22", "#0e4429", "#006d32", "#26a641", "#39d353"],
-                }}
-                colorScheme={theme as "light" | "dark"}
-              />
+              <div className="relative group overflow-hidden rounded-3xl border border-gray-200 dark:border-gray-700 shadow-lg transition-all duration-500 p-6 bg-white dark:bg-gray-900">
+                <GitHubCalendar
+                  username="yeabnoah"
+                  theme={{
+                    light: [
+                      "#f0f0f0",
+                      "#d4d4d4",
+                      "#a3a3a3",
+                      "#737373",
+                      "#525252",
+                    ],
+                    dark: [
+                      "#161b22",
+                      "#2d2d2d",
+                      "#4b4b4b",
+                      "#737373",
+                      "#a3a3a3",
+                    ],
+                  }}
+                  colorScheme={theme as "light" | "dark"}
+                />
+                <div className="absolute inset-0 bg-gradient-to-br from-gray-100 to-gray-300 opacity-0 group-hover:opacity-20 transition-opacity duration-500 pointer-events-none rounded-3xl"></div>
+                <div className="absolute inset-0 scale-95 group-hover:scale-100 transition-transform duration-500"></div>
+              </div>
             )}
           </section>
 
@@ -96,89 +105,77 @@ const HomeComponent = ({ params }: { params: { id: string } }) => {
 
           <section
             id="about"
-            className="flex justify-center flex-col-reverse md:flex-row items-center md:justify-between md:mr-[5rem] py-8 gap-6 md:gap-8"
+            className="flex flex-col-reverse md:flex-row items-center md:justify-between md:mr-[5rem] py-8 gap-6 md:gap-8"
           >
             <div className="w-full md:w-1/2 space-y-4 shrink-0 px-4 md:px-0">
               <div>
                 <h1 className="text-2xl md:text-start text-center sm:text-3xl lg:text-4xl font-semibold bg-clip-text text-transparent bg-gradient-to-b from-neutral-800 via-neutral-700 to-neutral-700 dark:from-neutral-800 dark:via-white dark:to-white">
-                  Hi, Im {userDataResult && userDataResult?.data?.name} a
+                  Hi, I am {userDataResult?.data?.name}, a
                   <br />
                   <Cover className="text-teal-500">
-                    {infoResult.data && infoResult.data.mainRole}
+                    {infoResult?.data?.mainRole}
                   </Cover>{" "}
-                  {infoResult.data && infoResult.data.word}
+                  {infoResult?.data?.word}
                 </h1>
                 <p className="text-sm text-center md:text-start sm:text-base text-foreground dark:text-foreground/80 mt-3">
-                  {infoResult.data && infoResult.data.moto}
+                  {infoResult?.data?.moto}
                 </p>
               </div>
 
-              <div className="flex justify-center md:justify-normal gap-4 sm:gap-6">
-                <Link
-                  href={
-                    linksResult?.data?.github ||
-                    linksResult?.data?.links?.github ||
-                    "#"
-                  }
-                  className="text-foreground dark:text-foreground/80 hover:text-teal-500 hover:scale-125 hover:rotate-6 transition-colors"
-                >
-                  <IconBrandGithub className="h-10 w-10" />
-                  <span className="sr-only">GitHub</span>
-                </Link>
-
-                <Link
-                  href={linksResult?.data ? linksResult?.data?.links?.x : "#"}
-                  className="text-foreground dark:text-foreground/80 hover:text-teal-500 hover:scale-125 hover:rotate-6 transition-colors"
-                >
-                  <IconBrandTwitter className="h-10 w-10" />
-                  <span className="sr-only">Twitter</span>
-                </Link>
-                <Link
-                  href={
-                    linksResult?.data ? linksResult?.data?.links?.linkedIn : "#"
-                  }
-                  className="text-foreground dark:text-foreground/80 hover:text-teal-500 hover:scale-125 hover:rotate-6 transition-colors"
-                >
-                  <IconBrandLinkedin className="h-10 w-10" />
-                  <span className="sr-only">LinkedIn</span>
-                </Link>
-                <Link
-                  href={
-                    linksResult?.data ? linksResult?.data?.links?.telegram : "#"
-                  }
-                  className="text-foreground dark:text-foreground/80 hover:text-teal-500 hover:scale-125 hover:rotate-6 transition-colors"
-                >
-                  <IconBrandTelegram className="h-10 w-10" />
-                  <span className="sr-only">Telegram</span>
-                </Link>
-
-                <Link
-                  href={
-                    linksResult?.data?.email
+              <div className="flex justify-center md:justify-normal gap-4 sm:gap-6 mt-6">
+                {[
+                  {
+                    name: "GitHub",
+                    href: linksResult?.data?.github,
+                    icon: <IconBrandGithub className="h-10 w-10" />,
+                  },
+                  {
+                    name: "Twitter",
+                    href: linksResult?.data?.links?.x,
+                    icon: <IconBrandTwitter className="h-10 w-10" />,
+                  },
+                  {
+                    name: "LinkedIn",
+                    href: linksResult?.data?.links?.linkedIn,
+                    icon: <IconBrandLinkedin className="h-10 w-10" />,
+                  },
+                  {
+                    name: "Telegram",
+                    href: linksResult?.data?.links?.telegram,
+                    icon: <IconBrandTelegram className="h-10 w-10" />,
+                  },
+                  {
+                    name: "Email",
+                    href: linksResult?.data?.email
                       ? `mailto:${linksResult.data.email}`
-                      : "#"
-                  }
-                  className="text-foreground dark:text-foreground/80 hover:text-teal-500 hover:scale-125 hover:rotate-6 transition-colors"
-                >
-                  <IconMail className="h-10 w-10" />
-                  <span className="sr-only">Email</span>
-                </Link>
+                      : "#",
+                    icon: <IconMail className="h-10 w-10" />,
+                  },
+                ].map(({ name, href, icon }) => (
+                  <Link
+                    key={name}
+                    href={href || "#"}
+                    className="text-gray-700 dark:text-gray-300 hover:text-gray-500 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-800 hover:scale-110 hover:rotate-3 transition-all duration-300 rounded-full p-2"
+                  >
+                    {icon}
+                    <span className="sr-only">{name}</span>
+                  </Link>
+                ))}
               </div>
             </div>
-            <DirectionAwareHover
-              className="w-32 h-32 sm:w-40 sm:h-40 md:w-64 md:h-64"
-              imageUrl={userDataResult.data && userDataResult?.data?.image}
-            >
-              <p className="font-bold text-lg md:text-xl">
-                {infoResult.data && infoResult.data.mainRole}{" "}
-                {infoResult.data && infoResult.data.word}
-              </p>
-            </DirectionAwareHover>
+
+            <img
+              src={userDataResult?.data?.image}
+              height={230}
+              width={230}
+              className="object-cover rounded-lg transition-transform duration-500 ease-out transform group-hover:scale-105 group-hover:rotate-3 group-hover:shadow-lg group-hover:bg-gradient-to-r from-blue-500 to-purple-500"
+              alt="thumbnail"
+            />
           </section>
 
-          <InfiniteMovingCardsDemo
-            data={skillResult.data && skillResult.data}
-          />
+          <hr className="my-6 border-dashed border-foreground/40 dark:border-foreground/20 hidden md:block" />
+
+          <SkillCards data={skillResult.data && skillResult.data} />
 
           <hr className="my-2 hidden md:block border-dashed border-foreground/40 dark:border-foreground/20" />
 

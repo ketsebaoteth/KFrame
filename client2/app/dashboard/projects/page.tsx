@@ -26,6 +26,7 @@ interface ProjectInterface {
   tags: string[];
 }
 import strShorten from "str_shorten";
+import Image from "next/image";
 
 export default function ProjectsPage() {
   const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL!;
@@ -208,7 +209,9 @@ export default function ProjectsPage() {
               <Label htmlFor="imageUrl">Project Image</Label>
               <Input type="file" onChange={handleFileChange} />
               {previewUrl && (
-                <img
+                <Image
+                  width={200}
+                  height={200}
                   src={previewUrl}
                   alt="Image Preview"
                   className="w-full h-40 object-cover rounded-md mt-2"
@@ -273,7 +276,9 @@ export default function ProjectsPage() {
               <CardTitle>{project.name}</CardTitle>
             </CardHeader>
             <CardContent>
-              <img
+              <Image
+                width={200}
+                height={200}
                 src={project.imageUrl}
                 alt={project.name}
                 className="w-full h-40 object-cover mb-4 rounded-md"

@@ -1,74 +1,64 @@
 "use client";
 
-import Image from "next/image";
-import React from "react";
-import { CardBody, CardContainer, CardItem } from "../ui/3d-card";
-import Link from "next/link";
 import ProjectInterface from "@/interface/project";
+import Link from "next/link";
 
 export function ThreeDCardDemo({ data }: { data: ProjectInterface }) {
   return (
-    <CardContainer className="">
-      <CardBody className="bg-background border-foreground/20 shadow-sm shadow-foreground/20 dark:shadow-foreground/5 rounded-md group/card dark:hover:shadow-2xl dark:hover:shadow-white/5 dark:bg-black dark:border-white/[0.2] w-auto  h-auto p-4 border">
-        <CardItem
-          translateZ="50"
-          className="text-xl font-bold rounded-md text-foreground dark:text-white"
-        >
+    <div className="relative bg-gradient-to-r from-[#f4f4f9] to-[#fafafa] dark:from-[#1c1c1c] dark:to-[#333333] border border-gray-200 dark:border-gray-800 shadow-lg rounded-xl overflow-hidden group transition-all duration-500 hover:scale-[1.03] hover:shadow-xl hover:shadow-[#dcdcdc] dark:hover:shadow-[#5a5a5a] max-w-xl mx-auto">
+      <div className="p-6">
+        {/* Project Name */}
+        <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-3 text-shadow-md">
           {data.name}
-        </CardItem>
+        </h2>
 
-        <CardItem translateZ="100" className="w-full mt-4 rounded-md">
-          <Image
+        <div className="w-full h-40 overflow-hidden rounded-lg mb-4">
+          <img
             src={data.imageUrl}
             height={200}
-            width="1000"
-            className=" object-cover rounded-md group-hover/card:shadow-xl"
+            width={400}
+            className="w-full h-full object-cover rounded-lg transition-transform duration-500 ease-out group-hover:scale-105"
             alt="thumbnail"
           />
-        </CardItem>
+        </div>
 
-        <CardItem
-          as="p"
-          translateZ="60"
-          className="text-foreground text-sm max-w-xs mt-3 dark:text-foreground"
-        >
+        {/* Project Description */}
+        <p className="text-gray-600 dark:text-gray-300 text-sm mb-4 leading-relaxed">
           {data.description.length > 200
             ? `${data.description.slice(0, 200)}...`
             : data.description}
-        </CardItem>
+        </p>
 
-        <CardItem translateZ="40" className="flex gap-1.5 mt-3">
+        {/* Project Tags */}
+        <div className="flex flex-wrap gap-2 mb-4">
           {data.tags.map((tech) => (
             <span
               key={tech}
-              className="px-1.5 py-0.5 text-xs font-medium bg-foreground/90 text-white dark:text-white dark:bg-background rounded-md"
+              className="px-2 py-0.5 text-xs font-medium bg-[#f8f8f8] dark:bg-gray-700 text-gray-800 dark:text-gray-100 rounded-full shadow-inner"
             >
               {tech}
             </span>
           ))}
-        </CardItem>
+        </div>
 
-        <div className="flex justify-between items-center flex-row my-2">
-          <CardItem
-            translateZ={20}
-            as={Link}
+        {/* Action Buttons */}
+        <div className="flex justify-between items-center">
+          <Link
             href={data.githubUrl}
-            target="__blank"
-            className="px-3 py-1.5 rounded-md text-xs font-normal dark:text-white"
+            target="_blank"
+            className="px-3 py-1 text-sm font-medium text-gray-700 dark:text-gray-200 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-300"
           >
             View Code →
-          </CardItem>
-          <CardItem
-            translateZ={20}
-            as={Link}
+          </Link>
+          <Link
             href={data.liveLink}
-            target="__blank"
-            className="px-3 py-1.5 mt-2 rounded-md bg-foreground/90 text-white hover:bg-foreground/20 dark:bg-background dark:text-white text-xs font-bold"
+            target="_blank"
+            className="px-3 py-1 text-sm font-medium text-white dark:text-gray-200 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-black/85 bg-black/85 border-none dark:hover:bg-gray-800 transition-all duration-300"
           >
             Live Preview
-          </CardItem>
+          </Link>
         </div>
-      </CardBody>
-    </CardContainer>
+      </div>
+    </div>
   );
 }

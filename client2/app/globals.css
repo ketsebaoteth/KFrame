@@ -111,3 +111,11 @@
 .animate-scroll:hover {
   animation-play-state: paused; /* Pauses on hover if `pauseOnHover` is true */
 }
+
+.group:hover .group-hover\:scale-110 {
+  transform: scale(1.1); /* Slight zoom on hover */
+}
+
+.group:hover .group-hover\:opacity-20 {
+  opacity: 0.2; /* Background gradient on hover */
+}

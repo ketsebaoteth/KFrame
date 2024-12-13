@@ -22,7 +22,6 @@ import authClient from "@/lib/auth-client";
 import techOptions from "@/util/techStack";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import Image from "next/image";
 import { useState } from "react";
 
 interface SkillInterface {
@@ -204,7 +203,7 @@ export default function SkillsPage() {
             (skill: { imageUrl: string; name: string; id: number }) => (
               <Card key={skill.id}>
                 <CardContent className="flex flex-col items-center justify-center p-6">
-                  <Image
+                  <img
                     height={200}
                     width={200}
                     src={skill.imageUrl}

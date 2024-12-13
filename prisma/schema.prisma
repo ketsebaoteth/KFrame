@@ -53,7 +53,7 @@ model Info {
   id       Int    @id @default(autoincrement())
   mainRole String @default("Full stack Developer")
   moto     String @default("I create full-stack products that people love, with a focus on user experience and scalable architecture.")
-  github   String 
+  github   String? 
   word   Word
   homeImageUrl String @default("https://static7.tgstat.ru/channels/_0/bc/bc8ed4944ea88e1bdf520898b60b5ac6.jpg")
   aboutImageUrl String @default("https://static7.tgstat.ru/channels/_0/bc/bc8ed4944ea88e1bdf520898b60b5ac6.jpg")

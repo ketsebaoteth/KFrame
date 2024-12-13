@@ -1,5 +1,6 @@
 "use client";
 
+import CloudinaryUpload from "@/components/reuseble/upload";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -15,7 +16,6 @@ import { Textarea } from "@/components/ui/textarea";
 import authClient from "@/lib/auth-client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
-import Image from "next/image";
 import { useState } from "react";
 
 interface Testimonial {
@@ -24,7 +24,7 @@ interface Testimonial {
   testimony: string;
   orgName: string;
   role: string;
-  imageUrl: string;
+  imageUrl: string; // Cloudinary URL will be set after upload
   userId: string;
 }
 
@@ -42,16 +42,15 @@ export default function TestimonialsPage() {
     testimony: "",
     orgName: "",
     role: "",
-    imageUrl: "",
+    imageUrl: "", // Reset imageUrl
     userId: session.data?.user.id ?? "",
   });
 
   const {
     data: testimonials,
     isLoading,
-    // isError,
     refetch,
-  } = useQuery<Testimonial[]>({
+  } = useQuery<Testimonial[] | undefined>({
     queryKey: ["testimonials"],
     queryFn: async () => {
       const response = await axios.get(
@@ -66,15 +65,23 @@ export default function TestimonialsPage() {
   const saveTestimonialMutation = useMutation({
     mutationFn: async (testimonial: Testimonial) => {
       const { id, ...restTestimonial } = testimonial;
-
+      // Handle submission to backend (create or update)
       if (id) {
-        return axios.patch(`${backendUrl}/testimony/${id}`, restTestimonial, {
-          withCredentials: true,
-        });
+        return axios.patch(
+          `${backendUrl}/testimony/${id}`,
+          { ...restTestimonial },
+          {
+            withCredentials: true,
+          }
+        );
       } else {
-        return axios.post(`${backendUrl}/testimony`, restTestimonial, {
-          withCredentials: true,
-        });
+        return axios.post(
+          `${backendUrl}/testimony`,
+          { ...restTestimonial },
+          {
+            withCredentials: true,
+          }
+        );
       }
     },
     onSuccess: () => {
@@ -101,16 +108,6 @@ export default function TestimonialsPage() {
     setNewTestimonial((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setNewTestimonial((prev) => ({
-        ...prev,
-        imageUrl: URL.createObjectURL(file),
-      }));
-    }
-  };
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     saveTestimonialMutation.mutate(newTestimonial);
@@ -134,10 +131,14 @@ export default function TestimonialsPage() {
       testimony: "",
       orgName: "",
       role: "",
-      imageUrl: "",
+      imageUrl: "", // Reset imageUrl
       userId: session.data?.user.id ?? "",
     });
     setEditingTestimonialId(null);
+  };
+
+  const handleImageUploadSuccess = (url: string) => {
+    setNewTestimonial((prev) => ({ ...prev, imageUrl: url })); // Set the image URL in the form
   };
 
   if (isLoading) {
@@ -218,26 +219,7 @@ export default function TestimonialsPage() {
               />
             </div>
 
-            <div>
-              <Label htmlFor="imageUrl">Image Upload</Label>
-              <Input
-                type="file"
-                onChange={handleFileChange}
-                className="py-1 px-2"
-              />
-            </div>
-
-            {newTestimonial.imageUrl && (
-              <div className="mt-2">
-                <Image
-                  width={200}
-                  height={200}
-                  src={newTestimonial.imageUrl}
-                  alt="Image Preview"
-                  className="w-32 h-32 object-cover rounded-full"
-                />
-              </div>
-            )}
+            <CloudinaryUpload onUploadSuccess={handleImageUploadSuccess} />
 
             <CardFooter className="gap-3">
               <Button
@@ -248,7 +230,7 @@ export default function TestimonialsPage() {
               </Button>
               {editingTestimonialId && (
                 <Button type="button" variant="secondary" onClick={resetForm}>
-                  Cancel Edit
+                  Edit
                 </Button>
               )}
             </CardFooter>
@@ -261,13 +243,24 @@ export default function TestimonialsPage() {
           <Card key={testimonial.id}>
             <CardHeader>
               <div className="flex items-center gap-4">
-                <Image
-                  height={200}
-                  width={200}
+                <img
                   src={testimonial.imageUrl as string}
                   alt={testimonial.name}
-                  className="w-12 h-12 rounded-full object-cover"
+                  height={200}
+                  width={200}
+                  className=" h-12 w-12 rounded-full object-cover shadow-lg transition-transform duration-500 hover:scale-105"
+                  draggable={false}
                 />
+
+                {/* <Image
+              src={data[active].imageUrl}
+              alt={data[active].name}
+              width={320}
+              height={320}
+              className="md:h-72 md:w-72 h-52 w-52 rounded-3xl object-cover shadow-lg transition-transform duration-500 hover:scale-105"
+              draggable={false}
+            /> */}
+
                 <div>
                   <CardTitle>{testimonial.name}</CardTitle>
                   <CardDescription>

@@ -129,6 +129,11 @@ export default function ProfilePage() {
       {userInfo && (
         <Card>
           <CardHeader>
+            <Label>
+              {" "}
+              <span className=" font-bold text-lg">id :</span>{" "}
+              {session.data?.user.id}
+            </Label>
             <CardTitle>Edit Profile {session.data?.user.name}</CardTitle>
             <CardDescription>Update your personal information</CardDescription>
           </CardHeader>

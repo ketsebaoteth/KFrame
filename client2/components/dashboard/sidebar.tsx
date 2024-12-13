@@ -1,25 +1,13 @@
 "use client";
 
-import {
-  BarChart,
-  User,
-  Link,
-  FolderKanban,
-  FileText,
-  MessageSquare,
-  Briefcase,
-  Info,
-  Settings,
-  X,
-  LogOut,
-} from "lucide-react";
-import { usePathname, useRouter } from "next/navigation";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 import {
   Sidebar,
   SidebarContent,
   SidebarGroup,
   SidebarGroupContent,
-  SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
@@ -27,10 +15,19 @@ import {
   SidebarRail,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { Button } from "@/components/ui/button";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Separator } from "@/components/ui/separator";
 import authClient from "@/lib/auth-client";
+import {
+  Briefcase,
+  FileText,
+  FolderKanban,
+  Info,
+  Link,
+  LogOut,
+  MessageSquare,
+  User,
+  X,
+} from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
 
 const navItems = [
   { icon: FileText, label: "Articles", href: "/dashboard/articles" },
@@ -59,24 +56,26 @@ export function DashboardSidebar() {
       }
 
       console.log("Logging out...");
-    } catch (err) {
-      alert("error while logging out");
+    } catch (err: unknown) {
+      alert(`Error while logging out ${err}`);
     }
   };
 
   const session = authClient.useSession();
 
   return (
-    <Sidebar className="border-r">
+    <Sidebar className="border-r bg-white dark:bg-gray-800">
       <SidebarHeader className="border-b px-6 py-4 flex items-center justify-between">
-        <h2 className="text-lg font-semibold">Portfolio Dashboard</h2>
+        <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
+          Portfolio Dashboard
+        </h2>
         <Button
           variant="ghost"
           size="icon"
           onClick={toggleSidebar}
           className="md:hidden"
         >
-          <X className="h-6 w-6" />
+          <X className="h-6 w-6 text-gray-900 dark:text-white" />
           <span className="sr-only">Close Sidebar</span>
         </Button>
       </SidebarHeader>
@@ -87,7 +86,10 @@ export function DashboardSidebar() {
               {navItems.map((item) => (
                 <SidebarMenuItem key={item.href}>
                   <SidebarMenuButton asChild isActive={pathname === item.href}>
-                    <a href={item.href} className="flex items-center gap-3">
+                    <a
+                      href={item.href}
+                      className="flex items-center gap-3 px-4 py-2 text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg transition duration-300 ease-in-out"
+                    >
                       <item.icon className="h-5 w-5" />
                       <span>{item.label}</span>
                     </a>
@@ -104,7 +106,7 @@ export function DashboardSidebar() {
               <SidebarMenu>
                 <SidebarMenuItem>
                   <SidebarMenuButton onClick={handleLogout} className="w-full">
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-3 px-4 py-2 text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg transition duration-300 ease-in-out">
                       <Avatar className="h-8 w-8">
                         <AvatarImage
                           src={
@@ -117,7 +119,7 @@ export function DashboardSidebar() {
                         <AvatarFallback>U</AvatarFallback>
                       </Avatar>
                       <div className="flex flex-col items-start">
-                        <span className="text-sm font-medium">
+                        <span className="text-sm font-medium text-gray-900 dark:text-gray-100">
                           {session.data?.user.name
                             ? session.data?.user.name
                             : "User Name"}

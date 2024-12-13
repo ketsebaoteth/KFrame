@@ -12,14 +12,13 @@ interface InfiniteMovingCardsProps {
   className?: string;
   pauseOnHover?: boolean;
 }
-
-export const InfiniteMovingCards: React.FC<InfiniteMovingCardsProps> = ({
+const InfiniteMovingCards = ({
   data,
   direction,
   speed,
   className,
   pauseOnHover,
-}) => {
+}: InfiniteMovingCardsProps) => {
   const containerRef = React.useRef<HTMLDivElement>(null);
   const scrollerRef = React.useRef<HTMLUListElement>(null);
 
@@ -100,6 +99,7 @@ export const InfiniteMovingCards: React.FC<InfiniteMovingCardsProps> = ({
           )} linear infinite ${containerRef.current?.style.getPropertyValue(
             "--animation-direction"
           )}`,
+          transform: "translateX(-50%)", // Start from the center
         }}
       >
         {data.map((item) => (
@@ -108,13 +108,12 @@ export const InfiniteMovingCards: React.FC<InfiniteMovingCardsProps> = ({
             key={item.id}
           >
             <div className="flex flex-col items-center justify-center gap-2">
-              {/* Dynamically render the skill icon */}
               <Image
                 height={200}
                 width={200}
                 src={item.imageUrl}
                 alt={item.name}
-                className=" w-full h-full text-gray-900 dark:text-white"
+                className="w-full h-full text-gray-900 dark:text-white"
               />
               <div className="text-center">
                 <p className="text-xs sm:text-sm font-semibold text-gray-900 dark:text-gray-100">
@@ -128,3 +127,5 @@ export const InfiniteMovingCards: React.FC<InfiniteMovingCardsProps> = ({
     </div>
   );
 };
+
+export default InfiniteMovingCards;
