@@ -3,7 +3,6 @@ import { CardBody, CardContainer, CardItem } from "../ui/3d-card";
 import ArticlesInterface from "@/interface/articles";
 
 export default function ProjectCard({ data }: { data: ArticlesInterface }) {
-  // Function to trim the description to 500 characters
   const truncateDescription = (description: string) => {
     const plainText = description.replace(/<[^>]+>/g, ""); // Strip HTML tags
     return plainText.length > 500 ? `${plainText.slice(0, 500)}...` : plainText;
@@ -12,7 +11,6 @@ export default function ProjectCard({ data }: { data: ArticlesInterface }) {
   return (
     <CardContainer className="">
       <CardBody className="bg-white/70 -mt-12 dark:from-[#1c1c1c] dark:to-[#333333] border border-gray-200 dark:border-gray-800 shadow-lg rounded-xl overflow-hidden group/card transition-transform duration-500 hover:scale-[1.05] hover:shadow-xl hover:shadow-[#dcdcdc] dark:hover:shadow-[#5a5a5a] w-auto h-auto p-6">
-        {/* Title with hover effect */}
         <CardItem
           translateZ="50"
           className="text-xl font-semibold text-gray-800 dark:text-white text-shadow-md rounded-md transition-transform duration-300 group-hover/card:scale-105 group-hover/card:text-gray-900 dark:group-hover/card:text-white"
@@ -20,7 +18,6 @@ export default function ProjectCard({ data }: { data: ArticlesInterface }) {
           {data.title}
         </CardItem>
 
-        {/* Description with hover animation */}
         <span
           dangerouslySetInnerHTML={{
             __html: truncateDescription(data.description),
@@ -40,10 +37,7 @@ export default function ProjectCard({ data }: { data: ArticlesInterface }) {
           ))}
         </CardItem>
 
-        {/* "Read More" button with hover animation */}
         <div className="flex justify-between items-center mt-3">
-          {" "}
-          {/* Removed my-4 */}
           <CardItem
             translateZ={20}
             as={Link}

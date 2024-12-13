@@ -64,7 +64,7 @@ export default function ProjectsPage() {
       return response.data;
     },
     queryKey: ["projects"],
-    enabled: false, // Prevent fetching on page load
+    enabled: false,
   });
 
   const saveProjectMutation = useMutation({

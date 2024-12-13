@@ -1,18 +1,10 @@
 "use client";
-import {
-  useMotionValueEvent,
-  useScroll,
-  useTransform,
-  motion,
-} from "framer-motion";
+import ProjectInterface from "@/interface/project";
+import { motion, useScroll, useTransform } from "framer-motion";
+import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
 
-interface TimelineEntry {
-  title: string;
-  content: React.ReactNode;
-}
-
-export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
+export const Timeline = ({ data }: { data: ProjectInterface[] }) => {
   const ref = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [height, setHeight] = useState(0);
@@ -34,15 +26,16 @@ export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
 
   return (
     <div
-      className="w-full bg-white dark:bg-transparent font-sans md:px-10"
+      className=" w-full md:w-[80vw] bg-white dark:bg-transparent font-sans md:px-10"
       ref={containerRef}
     >
-      <div className="max-w-5xl md:max-w-7xl mx-auto py-10 px-4 md:px-8 lg:px-10">
-        <h2 className="text-3xl md:text-4xl mb-4 text-black dark:text-white max-w-4xl">
+      <div className="max-w-5xl md:max-w-7xl mx-auto py-10 mt-20 px-4 md:px-8 lg:px-10">
+        <h2 className="text-3xl  md:text-4xl mb-4 text-black dark:text-white max-w-4xl">
           Some of my projects
         </h2>
         <p className="text-neutral-700 dark:text-neutral-300 text-sm md:text-base max-w-sm">
-          Here&apos;s a list of some of my projects i have worked on in the past hope you like them.
+          Here&apos;s a list of some of my projects i have worked on in the past
+          hope you like them.
         </p>
       </div>
 
@@ -50,22 +43,68 @@ export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
         {data.map((item, index) => (
           <div
             key={index}
-            className="flex justify-start pt-10 md:pt-40 md:gap-20 px-4 md:px-0"
+            className="flex justify-start pt-5 md:pt-32 md:gap-20 px-4 md:px-0"
           >
             <div className="sticky flex flex-col md:flex-row z-40 items-center top-20 md:top-40 self-start max-w-xs lg:max-w-sm md:w-full">
               <div className="h-8 md:h-10 absolute left-0 md:left-3 w-8 md:w-10 rounded-full bg-white dark:bg-black flex items-center justify-center">
                 <div className="h-3 md:h-4 w-3 md:w-4 rounded-full bg-neutral-200 dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-700 p-2" />
               </div>
               <h3 className="hidden md:block text-xl md:pl-20 md:text-xl font-bold text-neutral-500 dark:text-neutral-500">
-                {item.title}
+                {item.name}
               </h3>
             </div>
 
-            <div className="relative pl-12 md:pl-4 w-full">
-              <h3 className="md:hidden block text-xl mb-4 text-left font-bold text-neutral-500 dark:text-neutral-500">
-                {item.title}
+            <div className="relative pl-12 md:pl-4 w-full shadow-black/15 rounded-2xl shadow-xl p-5 group overflow-hidden bg-white dark:bg-gray-800">
+              {/* Image with Hover Effects */}
+              <div className="relative overflow-hidden rounded-lg">
+                <img
+                  src={item.imageUrl}
+                  className="object-cover h-64 w-full rounded-lg transition-transform duration-500 ease-out transform group-hover:scale-105 group-hover:rotate-2 group-hover:shadow-2xl"
+                  alt="thumbnail"
+                />
+                {/* Gradient Overlay on Hover */}
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 opacity-0 group-hover:opacity-20 transition-opacity duration-500"></div>
+              </div>
+
+              {/* Title */}
+              <h3 className="md:hidden block pt-5 text-3xl mb-4 text-left font-bold text-neutral-700 dark:text-neutral-300">
+                {item.name}
               </h3>
-              {item.content}
+
+              {/* Description */}
+              <div className="mt-5 text-gray-600 dark:text-gray-300">
+                {item.description}
+              </div>
+
+              {/* Tags */}
+              <div className="flex flex-wrap gap-2 mb-4 mt-5">
+                {item.tags.map((tech) => (
+                  <span
+                    key={tech}
+                    className="px-2 py-0.5 text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-100 rounded-full shadow-inner transition-all duration-300 hover:bg-blue-500 hover:text-white dark:hover:bg-blue-600"
+                  >
+                    {tech}
+                  </span>
+                ))}
+              </div>
+
+              {/* Buttons */}
+              <div className="flex justify-between items-center mt-4">
+                <Link
+                  href={item.githubUrl}
+                  target="_blank"
+                  className="px-3 py-1 text-sm font-medium text-gray-700 dark:text-gray-200 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 hover:shadow-md transition-all duration-300"
+                >
+                  View Code →
+                </Link>
+                <Link
+                  href={item.liveLink}
+                  target="_blank"
+                  className="px-3 py-1 text-sm font-medium text-white bg-black dark:bg-gray-900 rounded-lg hover:bg-gray-800 dark:hover:bg-gray-700 hover:shadow-md transition-all duration-300"
+                >
+                  Live Preview
+                </Link>
+              </div>
             </div>
           </div>
         ))}
