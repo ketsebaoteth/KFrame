@@ -105,7 +105,7 @@ const HomeComponent = ({ params }: { params: { id: string } }) => {
 
           <section
             id="about"
-            className="flex flex-col-reverse md:flex-row items-center md:justify-between md:mr-[5rem] py-8 gap-6 md:gap-8"
+            className="flex my-10 flex-col-reverse md:flex-row items-center md:justify-between md:mr-[5rem] py-8 gap-6 md:gap-8"
           >
             <div className="w-full md:w-1/2 space-y-4 shrink-0 px-4 md:px-0">
               <div>
@@ -204,8 +204,8 @@ const HomeComponent = ({ params }: { params: { id: string } }) => {
 
           <hr className="my-6 border-dashed border-foreground/40 dark:border-foreground/20" />
 
-          <section id="articles" className="py-3 px-4 md:px-0">
-            <h2 className="text-2xl font-semibold mb-4">Recent Articles</h2>
+          <section id="articles" className=" px-4 md:px-0">
+            <h2 className="text-2xl font-semibold ">Recent Articles</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
               {articlesResult.data &&
                 articlesResult.data.map(
@@ -216,7 +216,7 @@ const HomeComponent = ({ params }: { params: { id: string } }) => {
                   )
                 )}
             </div>
-            <div className="mt-6">
+            <div className="mt-2">
               <Button
                 variant="outline"
                 className="dark:bg-background rounded-md bg-foreground/90 hover:bg-foreground/85 text-xs border-none text-white transition-colors"
@@ -227,14 +227,16 @@ const HomeComponent = ({ params }: { params: { id: string } }) => {
             </div>
           </section>
 
-          <hr className="my-6 border-dashed border-foreground/40 dark:border-foreground/20" />
+          <hr className=" mt-5 border-dashed border-foreground/40 dark:border-foreground/20" />
 
-          <section id="contact" className="py-12">
-            <Card className="bg-background/5 hover:bg-background/10 shadow-sm shadow-foreground/20 dark:shadow-foreground/5  text-foreground transition-colors">
+          <section id="contact" className="py-8">
+            <Card className="bg-background/5 hover:bg-background/10 shadow-sm shadow-foreground/20 dark:shadow-foreground/5 text-foreground transition-all transform hover:scale- hover:shadow-lg">
               <CardContent className="p-6 sm:p-8">
-                <h2 className="text-base font-semibold mb-4">Get in Touch</h2>
-                <p className="mb-6 text-foreground dark:text-foreground/80">
-                  Im always open to new opportunities and collaborations. Feel
+                <h2 className="text-base font-semibold mb-4 transition-colors group-hover:text-foreground/80">
+                  Get in Touch
+                </h2>
+                <p className="mb-6 text-foreground dark:text-foreground/80 group-hover:text-foreground">
+                  I am always open to new opportunities and collaborations. Feel
                   free to reach out!
                 </p>
                 <Button
@@ -245,7 +247,7 @@ const HomeComponent = ({ params }: { params: { id: string } }) => {
                       console.log("No email found");
                     }
                   }}
-                  className="bg-foreground/90 dark:bg-background hover:bg-foreground/85 text-white transition-colors"
+                  className="bg-foreground/90 dark:bg-background hover:bg-foreground/85 text-white transition-colors group hover:scale-105 transform"
                 >
                   <Mail className="mr-2 h-4 w-4" />
                   Contact Me
@@ -258,16 +260,17 @@ const HomeComponent = ({ params }: { params: { id: string } }) => {
 
       <footer className="border-t py-6">
         <div className="container px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-sm text-muted-foreground text-center sm:text-left dark:text-foreground/80">
+          <p className="text-sm text-muted-foreground text-center sm:text-left dark:text-foreground/80 group">
             Built by Yeabsra Ashebir. The source code is available on{" "}
             <Link
               href="#"
-              className="font-medium underline underline-offset-4 hover:text-foreground"
+              className="font-medium underline underline-offset-4 group-hover:text-foreground transition-all duration-300 ease-in-out"
             >
               GitHub
             </Link>
             .
           </p>
+
           <p className="text-sm text-muted-foreground text-center sm:text-left dark:text-foreground/80">
             © {new Date().getFullYear()} Yeabsra Ashebir. All rights reserved.
           </p>

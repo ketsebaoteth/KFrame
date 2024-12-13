@@ -56,7 +56,7 @@ export default function About({ params }: { params: { id: string } }) {
 
   return (
     <div className="py-6 md:py-12">
-      <div className="max-w-5xl mx-auto py-5 md:py-14 px-4 md:px-8">
+      <div className="max-w-6xl mx-auto py-5 md:py-14 px-4 md:px-8">
         <h2 className="text-3xl md:text-5xl mb-4 text-black dark:text-white max-w-4xl justify-start">
           Little about myself
         </h2>

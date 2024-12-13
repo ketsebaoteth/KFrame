@@ -10,40 +10,46 @@ export default function ProjectCard({ data }: { data: ArticlesInterface }) {
   };
 
   return (
-    <CardContainer className="inter-var">
-      <CardBody className="bg-gradient-to-r from-[#f4f4f9] to-[#fafafa] dark:from-[#1c1c1c] dark:to-[#333333] border border-gray-200 dark:border-gray-800 shadow-lg rounded-xl overflow-hidden group/card transition-transform duration-500 hover:scale-[1.05] hover:shadow-xl hover:shadow-[#dcdcdc] dark:hover:shadow-[#5a5a5a] w-auto h-auto p-6">
+    <CardContainer className="">
+      <CardBody className="bg-white/70 -mt-12 dark:from-[#1c1c1c] dark:to-[#333333] border border-gray-200 dark:border-gray-800 shadow-lg rounded-xl overflow-hidden group/card transition-transform duration-500 hover:scale-[1.05] hover:shadow-xl hover:shadow-[#dcdcdc] dark:hover:shadow-[#5a5a5a] w-auto h-auto p-6">
+        {/* Title with hover effect */}
         <CardItem
           translateZ="50"
-          className="text-xl font-semibold text-gray-800 dark:text-white text-shadow-md rounded-md transition-transform duration-300 group-hover/card:scale-105"
+          className="text-xl font-semibold text-gray-800 dark:text-white text-shadow-md rounded-md transition-transform duration-300 group-hover/card:scale-105 group-hover/card:text-gray-900 dark:group-hover/card:text-white"
         >
           {data.title}
         </CardItem>
 
+        {/* Description with hover animation */}
         <span
           dangerouslySetInnerHTML={{
             __html: truncateDescription(data.description),
           }}
-          className="text-gray-600 dark:text-gray-300 text-xs max-w-xs mt-3 overflow-clip leading-relaxed transition-all duration-300 group-hover/card:text-gray-900 group-hover/card:dark:text-white"
+          className="text-gray-600 dark:text-gray-300 text-xs max-w-xs mt-3 overflow-clip leading-relaxed transition-all duration-300 group-hover/card:text-gray-900 group-hover/card:dark:text-white group-hover/card:scale-105"
         />
 
+        {/* Tags with hover animation */}
         <CardItem translateZ="40" className="flex gap-1.5 mt-3 flex-wrap">
           {data.tags.map((tech) => (
             <span
               key={tech}
-              className="px-2 py-1 text-xs font-medium bg-[#f8f8f8] dark:bg-gray-700 text-gray-800 dark:text-gray-100 rounded-full shadow-inner transition-all duration-300 group-hover/card:bg-gray-200 group-hover/card:dark:bg-gray-600 group-hover/card:text-gray-900"
+              className="px-2 py-1 text-xs font-medium bg-[#f8f8f8] dark:bg-gray-700 text-gray-800 dark:text-gray-100 rounded-full shadow-inner transition-all duration-300 group-hover/card:bg-gray-200 group-hover/card:dark:bg-gray-600 group-hover/card:text-gray-900 group-hover/card:scale-110"
             >
               {tech}
             </span>
           ))}
         </CardItem>
 
-        <div className="flex justify-between items-center my-4">
+        {/* "Read More" button with hover animation */}
+        <div className="flex justify-between items-center mt-3">
+          {" "}
+          {/* Removed my-4 */}
           <CardItem
             translateZ={20}
             as={Link}
             href="https://your-live-preview-url.com"
             target="__blank"
-            className="px-3 py-1.5 rounded-md bg-black/85 text-white hover:bg-black/60 dark:bg-background dark:text-white text-xs font-bold transition-all duration-300"
+            className="px-3 py-1.5 rounded-md bg-black/85 text-white hover:bg-black/60 dark:bg-background dark:text-white text-xs font-bold transition-all duration-300 group-hover/card:bg-black/50"
           >
             Read More
           </CardItem>

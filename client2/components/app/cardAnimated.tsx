@@ -1,13 +1,10 @@
-"use client";
-
 import ProjectInterface from "@/interface/project";
 import Link from "next/link";
 
 export function ThreeDCardDemo({ data }: { data: ProjectInterface }) {
   return (
-    <div className="relative bg-gradient-to-r from-[#f4f4f9] to-[#fafafa] dark:from-[#1c1c1c] dark:to-[#333333] border border-gray-200 dark:border-gray-800 shadow-lg rounded-xl overflow-hidden group transition-all duration-500 hover:scale-[1.03] hover:shadow-xl hover:shadow-[#dcdcdc] dark:hover:shadow-[#5a5a5a] max-w-xl mx-auto">
+    <div className="relative bg-white/70 dark:from-[#1c1c1c] dark:to-[#333333] border border-gray-200 dark:border-gray-800 shadow-lg rounded-xl overflow-hidden group transition-all duration-500 hover:scale-[1.03] hover:shadow-xl hover:shadow-[#dcdcdc] dark:hover:shadow-[#5a5a5a] max-w-xl mx-auto">
       <div className="p-6">
-        {/* Project Name */}
         <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-3 text-shadow-md">
           {data.name}
         </h2>
@@ -17,19 +14,17 @@ export function ThreeDCardDemo({ data }: { data: ProjectInterface }) {
             src={data.imageUrl}
             height={200}
             width={400}
-            className="w-full h-full object-cover rounded-lg transition-transform duration-500 ease-out group-hover:scale-105"
+            className="w-full h-full grayscale object-cover rounded-lg transition-transform duration-500 ease-out group-hover:scale-105"
             alt="thumbnail"
           />
         </div>
 
-        {/* Project Description */}
         <p className="text-gray-600 dark:text-gray-300 text-sm mb-4 leading-relaxed">
           {data.description.length > 200
             ? `${data.description.slice(0, 200)}...`
             : data.description}
         </p>
 
-        {/* Project Tags */}
         <div className="flex flex-wrap gap-2 mb-4">
           {data.tags.map((tech) => (
             <span
@@ -41,7 +36,6 @@ export function ThreeDCardDemo({ data }: { data: ProjectInterface }) {
           ))}
         </div>
 
-        {/* Action Buttons */}
         <div className="flex justify-between items-center">
           <Link
             href={data.githubUrl}
