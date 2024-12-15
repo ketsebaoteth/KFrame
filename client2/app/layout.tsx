@@ -1,10 +1,9 @@
-import type { Metadata } from "next";
-import { Space_Grotesk } from "next/font/google";
-import "./globals.css";
-import { ThemeProvider } from "next-themes";
-import toast, { Toaster } from "react-hot-toast";
-import { QueryClientProvider } from "@tanstack/react-query";
 import QueryProvider from "@/provider/QueryClientProvider";
+import type { Metadata } from "next";
+import { ThemeProvider } from "next-themes";
+import { Space_Grotesk } from "next/font/google";
+import { Toaster } from "react-hot-toast";
+import "./globals.css";
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],

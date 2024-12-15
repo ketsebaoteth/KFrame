@@ -74,7 +74,7 @@ const HomeComponent = ({ params }: { params: { id: string } }) => {
         <div className="min-h-[85vh] flex-1 w-full">
           <section className="pt-6 sm:pt-10 hidden md:block">
             {mounted && (
-              <div className="relative group overflow-hidden rounded-3xl border border-gray-200 dark:border-gray-700 shadow-lg transition-all duration-500 p-6 bg-white dark:bg-gray-900">
+              <div className="relative group overflow-hidden rounded-3xl border border-gray-200 dark:border-white/5 shadow-lg transition-all duration-500 p-6 bg-white dark:bg-white/5 ">
                 <GitHubCalendar
                   username="yeabnoah"
                   theme={{
@@ -95,7 +95,7 @@ const HomeComponent = ({ params }: { params: { id: string } }) => {
                   }}
                   colorScheme={theme as "light" | "dark"}
                 />
-                <div className="absolute inset-0 bg-gradient-to-br from-gray-100 to-gray-300 opacity-0 group-hover:opacity-20 transition-opacity duration-500 pointer-events-none rounded-3xl"></div>
+                <div className="absolute inset-0 bg-gradient-to-br from-gray-100 to-gray-300 opacity-0  transition-opacity duration-500 pointer-events-none rounded-3xl"></div>
                 <div className="absolute inset-0 scale-95 group-hover:scale-100 transition-transform duration-500"></div>
               </div>
             )}
@@ -155,7 +155,7 @@ const HomeComponent = ({ params }: { params: { id: string } }) => {
                   <Link
                     key={name}
                     href={href || "#"}
-                    className="text-gray-700 dark:text-gray-300 hover:text-gray-500 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-800 hover:scale-110 hover:rotate-3 transition-all duration-300 rounded-full p-2"
+                    className="text-gray-700 dark:text-gray-300 hover:text-gray-500 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-white/5 hover:scale-110 hover:rotate-3 transition-all duration-300 rounded-full p-2"
                   >
                     {icon}
                     <span className="sr-only">{name}</span>
@@ -192,13 +192,13 @@ const HomeComponent = ({ params }: { params: { id: string } }) => {
                 )}
             </div>
             <div className="mt-6 flex justify-start">
-              <Button
-                variant="outline"
-                className="dark:bg-background rounded-md bg-foreground/90 hover:bg-foreground/85 border-none text-xs text-white transition-colors"
+              <Link
+                href={`/main/projects/${id}`}
+                className="dark:bg-background flex items-center justify-center p-2 rounded-md bg-foreground/90 hover:bg-foreground/85 border-none text-xs text-white transition-colors"
               >
                 View All Projects
                 <ExternalLink className="ml-2 h-4 w-4" />
-              </Button>
+              </Link>
             </div>
           </section>
 
@@ -216,14 +216,14 @@ const HomeComponent = ({ params }: { params: { id: string } }) => {
                   )
                 )}
             </div>
-            <div className="mt-2">
-              <Button
-                variant="outline"
-                className="dark:bg-background rounded-md bg-foreground/90 hover:bg-foreground/85 text-xs border-none text-white transition-colors"
+            <div className="mt-2 flex justify-start">
+              <Link
+                href={`/main/blog/${id}`}
+                className="dark:bg-background p-2 flex justify-center rounded-md bg-foreground/90 hover:bg-foreground/85 text-xs border-none text-white transition-colors"
               >
                 View All Articles
                 <ExternalLink className="ml-2 h-4 w-4" />
-              </Button>
+              </Link>
             </div>
           </section>
 

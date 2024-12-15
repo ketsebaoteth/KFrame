@@ -20,12 +20,20 @@ import publicInfo from "./routes/public/info";
 import publicUserRouter from "./routes/public/user";
 
 const app = new Hono();
+
+app.options("*", (c) => {
+  c.header("Access-Control-Allow-Origin", "*");
+  c.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  c.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  return c.text("");
+});
+
 app.use(
-  "/",
+  "/*",
   cors({
     origin: "*",
-    allowMethods: ["GET", "POST", "PUT", "DELETE"],
-    exposeHeaders: ["Content-Type", "Authorization"],
+    allowMethods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+    allowHeaders: ["Content-Type", "Authorization"],
   })
 );
 
@@ -34,7 +42,7 @@ app.post("/api/auth/*", cors(), (c) => auth.handler(c.req.raw));
 
 // base test api
 app.get("/", (c) => {
-  return c.text("Hello Hono!");
+  return c.text("test confirmed");
 });
 
 app.route("/home", homeRouter);

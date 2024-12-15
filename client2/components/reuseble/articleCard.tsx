@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { CardBody, CardContainer, CardItem } from "../ui/3d-card";
 import ArticlesInterface from "@/interface/articles";
 
 export default function ProjectCard({ data }: { data: ArticlesInterface }) {
@@ -9,46 +8,39 @@ export default function ProjectCard({ data }: { data: ArticlesInterface }) {
   };
 
   return (
-    <CardContainer className="">
-      <CardBody className="bg-white/70 -mt-12 dark:from-[#1c1c1c] dark:to-[#333333] border border-gray-200 dark:border-gray-800 shadow-lg rounded-xl overflow-hidden group/card transition-transform duration-500 hover:scale-[1.05] hover:shadow-xl hover:shadow-[#dcdcdc] dark:hover:shadow-[#5a5a5a] w-auto h-auto p-6">
-        <CardItem
-          translateZ="50"
-          className="text-xl font-semibold text-gray-800 dark:text-white text-shadow-md rounded-md transition-transform duration-300 group-hover/card:scale-105 group-hover/card:text-gray-900 dark:group-hover/card:text-white"
-        >
-          {data.title}
-        </CardItem>
+    <div className="bg-white/70 my-5 dark:bg-white/5 border border-gray-200 dark:border-white/5 shadow-lg rounded-xl overflow-hidden transition-transform duration-300 hover:scale-105 hover:shadow-xl dark:hover:shadow-none w-auto h-auto p-6">
+      <h3 className="text-xl font-semibold text-gray-800 dark:text-white transition-colors duration-300">
+        {data.title}
+      </h3>
 
-        <span
-          dangerouslySetInnerHTML={{
-            __html: truncateDescription(data.description),
-          }}
-          className="text-gray-600 dark:text-gray-300 text-xs max-w-xs mt-3 overflow-clip leading-relaxed transition-all duration-300 group-hover/card:text-gray-900 group-hover/card:dark:text-white group-hover/card:scale-105"
-        />
+      <p
+        dangerouslySetInnerHTML={{
+          __html: truncateDescription(data.description),
+        }}
+        className="text-gray-600 dark:text-gray-300 text-sm mt-3 leading-relaxed"
+      />
 
-        {/* Tags with hover animation */}
-        <CardItem translateZ="40" className="flex gap-1.5 mt-3 flex-wrap">
-          {data.tags.map((tech) => (
-            <span
-              key={tech}
-              className="px-2 py-1 text-xs font-medium bg-[#f8f8f8] dark:bg-gray-700 text-gray-800 dark:text-gray-100 rounded-full shadow-inner transition-all duration-300 group-hover/card:bg-gray-200 group-hover/card:dark:bg-gray-600 group-hover/card:text-gray-900 group-hover/card:scale-110"
-            >
-              {tech}
-            </span>
-          ))}
-        </CardItem>
-
-        <div className="flex justify-between items-center mt-3">
-          <CardItem
-            translateZ={20}
-            as={Link}
-            href="https://your-live-preview-url.com"
-            target="__blank"
-            className="px-3 py-1.5 rounded-md bg-black/85 text-white hover:bg-black/60 dark:bg-background dark:text-white text-xs font-bold transition-all duration-300 group-hover/card:bg-black/50"
+      {/* Tags */}
+      <div className="flex gap-2 mt-3 flex-wrap">
+        {data.tags.map((tech) => (
+          <span
+            key={tech}
+            className="px-2 py-1 text-xs font-medium bg-gray-100 dark:bg-white/5 text-gray-800 dark:text-gray-100 rounded-full"
           >
-            Read More
-          </CardItem>
-        </div>
-      </CardBody>
-    </CardContainer>
+            {tech}
+          </span>
+        ))}
+      </div>
+
+      <div className="mt-4">
+        <Link
+          href="https://your-live-preview-url.com"
+          target="__blank"
+          className="inline-block px-4 py-2 bg-black text-white text-xs font-bold rounded-md transition-all duration-300"
+        >
+          Read More
+        </Link>
+      </div>
+    </div>
   );
 }
