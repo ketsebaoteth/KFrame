@@ -1,6 +1,8 @@
 "use client";
 
 import { ThreeDCardDemo } from "@/components/app/cardAnimated";
+import ErrorUi from "@/components/blocks/error";
+import LoadingBlock from "@/components/blocks/loadingBlock";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Cover } from "@/components/ui/cover";
@@ -62,10 +64,10 @@ const HomeComponent = ({ params }: { params: { id: string } }) => {
   ] = results;
 
   if (results.some((result) => result.isLoading)) {
-    return <div>Loading...</div>;
+    return <LoadingBlock />;
   }
   if (results.some((result) => result.isError)) {
-    return <div>Error happened</div>;
+    return <ErrorUi />;
   }
 
   return (

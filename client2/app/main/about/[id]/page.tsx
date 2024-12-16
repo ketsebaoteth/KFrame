@@ -1,6 +1,8 @@
 "use client";
 
 import AboutInfo from "@/components/app/userInfo";
+import ErrorUi from "@/components/blocks/error";
+import LoadingBlock from "@/components/blocks/loadingBlock";
 import { AnimatedTestimonials } from "@/components/ui/animated-testimonials";
 import { SkillCards } from "@/components/ui/skillCards";
 import { useQueries } from "@tanstack/react-query";
@@ -28,32 +30,12 @@ export default function About({ params }: { params: { id: string } }) {
 
   const [infoResult, skillResult, testimonyResult] = results;
 
-  if (
-    infoResult.isLoading ||
-    skillResult.isLoading ||
-    testimonyResult.isLoading
-  ) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <svg
-          className="animate-spin h-5 w-5 mr-3 ..."
-          viewBox="0 0 24 24"
-        ></svg>
-        <div className="text-xl">Loading...</div>
-      </div>
-    );
+  if (infoResult.isError) {
+    return <ErrorUi />;
   }
-
-  if (infoResult.isError || skillResult.isError || testimonyResult.isError) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <div>
-          Error: {infoResult.error?.message || skillResult.error?.message}
-        </div>
-      </div>
-    );
+  if (infoResult.isLoading) {
+    return <LoadingBlock />;
   }
-
   return (
     <div className="py-6 md:py-12">
       <div className="max-w-6xl mx-auto py-5 md:py-14 px-4 md:px-8">

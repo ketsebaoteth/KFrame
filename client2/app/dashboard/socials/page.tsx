@@ -22,11 +22,6 @@ export default function SocialsPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Here you would typically send this data to your backend
-    // toast({
-    //   title: "Social Links Updated",
-    //   description: "Your social media links have been successfully updated.",
-    // });
   };
 
   return (

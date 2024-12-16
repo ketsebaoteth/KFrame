@@ -1,5 +1,7 @@
 "use client";
 
+import ErrorUi from "@/components/blocks/error";
+import LoadingBlock from "@/components/blocks/loadingBlock";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -33,7 +35,6 @@ interface SkillInterface {
 export default function SkillsPage() {
   const backendurl = process.env.NEXT_PUBLIC_BACKEND_URL;
   const session = authClient.useSession();
-  // const queryClient = useQueryClient();
 
   const [selectedTech, setSelectedTech] = useState<string | null>(null);
   const [newSkill, setNewSkill] = useState<SkillInterface>({
@@ -44,8 +45,8 @@ export default function SkillsPage() {
 
   const {
     data: skills,
-    isLoading: skillsLoading,
-    isError: skillsError,
+    isLoading,
+    isError,
     refetch,
   } = useQuery({
     queryKey: ["skills", session.data?.user.id],
@@ -57,7 +58,7 @@ export default function SkillsPage() {
       );
       return response.data;
     },
-    enabled: !!session.data?.user.id && false,
+    enabled: !!session.data?.user.id,
   });
 
   const addSkillMutation = useMutation({
@@ -117,29 +118,28 @@ export default function SkillsPage() {
     setSelectedTech(null);
   };
 
-  if (skillsLoading) {
-    return (
-      <div className="space-y-6">
-        <h1 className="text-3xl font-bold">About Me</h1>
-        <div>Loading...</div>
-      </div>
-    );
+  if (isLoading) {
+    return <LoadingBlock />;
+  }
+
+  if (isError) {
+    return <ErrorUi />;
   }
 
   return (
     <div className="space-y-6">
-      <h1 className="text-3xl font-bold">Select or Add a Skill</h1>
+      <h1 className="text-xl font-medium">Select or Add a Skill</h1>
 
-      <Button onClick={() => refetch()} disabled={skillsLoading}>
-        Fetch My Skills
-      </Button>
-
-      <div className="max-w-xs">
+      <p className=" font-light text-sm text-blue-500">
+        If you are able to find your skill, choose it from the dropdown. If not,
+        add it manually by entering the name and the image link.
+      </p>
+      <div className="max-w-xs ">
         <Select onValueChange={handleTechSelect} value={selectedTech || ""}>
-          <SelectTrigger>
+          <SelectTrigger className=" rounded-sm dark:bg-white/5">
             <SelectValue placeholder="Select a technology" />
           </SelectTrigger>
-          <SelectContent>
+          <SelectContent className=" rounded-sm">
             {techOptions.map((tech) => (
               <SelectItem key={tech.name} value={tech.name}>
                 {tech.name}
@@ -149,7 +149,7 @@ export default function SkillsPage() {
         </Select>
       </div>
 
-      <Card className="md:max-w-[60vw] w-full">
+      <Card className="md:max-w-[90%] w-full dark:bg-white/5 dark:border-white/5 rounded-sm">
         <CardHeader>
           <CardTitle>Add New Skill</CardTitle>
           <CardDescription>
@@ -190,30 +190,27 @@ export default function SkillsPage() {
         </CardContent>
       </Card>
 
-      <h2 className="text-2xl font-bold">Skills List</h2>
-
-      {skillsLoading && <p>Loading skills...</p>}
-      {skillsError && (
-        <p className="text-red-500">Failed to load skills. Please try again.</p>
-      )}
+      <h2 className="text-2xl font-medium">Skills List</h2>
 
       {skills && skills.length > 0 ? (
-        <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-4">
+        <div className=" flex flex-row gap-3 flex-wrap w-[97%]">
           {skills.map(
             (skill: { imageUrl: string; name: string; id: number }) => (
-              <Card key={skill.id}>
+              <Card
+                key={skill.id}
+                className=" rounded-sm dark:bg-white/5 dark:border-white/5"
+              >
                 <CardContent className="flex flex-col items-center justify-center p-6">
                   <img
                     height={200}
                     width={200}
                     src={skill.imageUrl}
                     alt={skill.name}
-                    className="w-16 h-16 object-contain mb-4"
+                    className="w-10 h-10 object-contain mb-4"
                   />
-                  <h3 className="text-lg font-semibold">{skill.name}</h3>
+                  <h3 className="text-sm font-semibold">{skill.name}</h3>
                   <Button
-                    variant="destructive"
-                    size="sm"
+                    className=" bg-red-500 mt-5"
                     onClick={() => deleteSkillMutation.mutate(skill.id)}
                   >
                     {deleteSkillMutation.isPending ? "Deleting..." : "Delete"}

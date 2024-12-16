@@ -1,4 +1,6 @@
 "use client";
+import ErrorUi from "@/components/blocks/error";
+import LoadingBlock from "@/components/blocks/loadingBlock";
 import { Timeline } from "@/components/ui/timeline";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
@@ -70,11 +72,11 @@ const Page = ({ params }: { params: { id: string } }) => {
   });
 
   if (isLoading) {
-    return <div>Loading .....</div>;
+    return <LoadingBlock />;
   }
 
   if (isError) {
-    return <div>something went wrong</div>;
+    return <ErrorUi />;
   }
   return (
     <div>

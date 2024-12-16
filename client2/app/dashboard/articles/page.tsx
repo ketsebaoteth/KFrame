@@ -10,6 +10,9 @@ import axios from "axios";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import authClient from "@/lib/auth-client";
+import { PencilIcon, Trash2Icon } from "lucide-react";
+import ErrorUi from "@/components/blocks/error";
+import LoadingBlock from "@/components/blocks/loadingBlock";
 
 interface ArticleInterface {
   id: string;
@@ -32,7 +35,12 @@ export default function ArticlesPage() {
 
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const { data: articles, refetch } = useQuery({
+  const {
+    data: articles,
+    refetch,
+    isLoading,
+    isError,
+  } = useQuery({
     queryKey: ["articles"],
     queryFn: async () => {
       const response = await axios.get(
@@ -164,11 +172,22 @@ export default function ArticlesPage() {
     deleteMutation.mutate(articleId);
   };
 
+  if (isError) {
+    return <ErrorUi />;
+  }
+
+  if (isLoading) {
+    return <LoadingBlock />;
+  }
+
   return (
     <div className="space-y-6 w-full">
-      <h1 className="text-3xl font-bold">Articles</h1>
-      <div className="card">
-        <h2>{newArticle.id ? "Edit Article" : "Create New Article"}</h2>
+      <h1 className="text-xl font-medium">Articles</h1>
+      <div className="card p-5 dark:bg-white/5">
+        <h2 className=" text-white">
+          {newArticle.id ? "Edit Article" : "Create New Article"}
+        </h2>
+        <hr className=" my-5" />
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="title">Title</Label>
@@ -188,6 +207,7 @@ export default function ArticlesPage() {
             <ReactQuill
               value={newArticle.description}
               onChange={handleDescriptionChange}
+              style={{ color: "white" }}
               modules={{
                 toolbar: [
                   [{ header: "1" }, { header: "2" }, { font: [] }],
@@ -231,39 +251,46 @@ export default function ArticlesPage() {
       </div>
 
       <div className="mt-8 border-white p-3 rounded">
-        <h2 className="text-2xl font-bold my-5">Published Articles</h2>
+        <h2 className="text-xl font-medium mb-4">Published Articles</h2>
+
         {articles && articles.length === 0 ? (
-          <p>No articles available.</p>
+          <p className="text-gray-500">No articles available.</p>
         ) : (
-          <ul>
+          <ul className="space-y-3">
             {articles?.map((article: ArticleInterface) => (
               <li
                 key={article.id}
-                className="flex justify-between items-center mb-4 border-white/25 border-[1px] rounded-md p-5"
+                className="flex justify-between items-start dark:bg-white/5 dark:border-white/5 border-white/25 border rounded-md p-3"
               >
-                <div>
-                  <h3 className="text-xl">{article.title}</h3>
-                  <p
-                    dangerouslySetInnerHTML={{ __html: article.description }}
-                  />
-                  <p className="text-sm text-gray-500">
-                    {article.tags.join(", ")}
+                <div className="flex-1">
+                  <h3 className="text-lg font-semibold mb-1">
+                    {article.title}
+                  </h3>
+                  <p className="text-sm text-black/80 dark:text-white/70 mb-1">
+                    {article.description.length > 100
+                      ? `${article.description.slice(0, 100)}...`
+                      : article.description}
                   </p>
-                  <div className="flex gap-2 my-2">
-                    <Button
-                      className="py-2 px-5"
-                      onClick={() => handleEdit(article)}
-                    >
-                      Edit
-                    </Button>
-                    <Button
-                      className="py-2 px-5"
-                      onClick={() => handleDelete(article.id)}
-                      variant="destructive"
-                    >
-                      Delete
-                    </Button>
-                  </div>
+                  <p className="text-xs text-black/70 dark:text-white/50">
+                    {article.tags.slice(0, 3).join(", ")}
+                  </p>
+                </div>
+
+                <div className="flex gap-2 items-center">
+                  <Button
+                    className="p-2"
+                    size="icon"
+                    onClick={() => handleEdit(article)}
+                  >
+                    <PencilIcon />
+                  </Button>
+                  <Button
+                    className="p-2 bg-red-500"
+                    size="icon"
+                    onClick={() => handleDelete(article.id)}
+                  >
+                    <Trash2Icon className=" text-white" />
+                  </Button>
                 </div>
               </li>
             ))}

@@ -1,5 +1,7 @@
 "use client";
 
+import ErrorUi from "@/components/blocks/error";
+import LoadingBlock from "@/components/blocks/loadingBlock";
 import CloudinaryUpload from "@/components/reuseble/upload";
 import { Button } from "@/components/ui/button";
 import {
@@ -49,7 +51,8 @@ export default function TestimonialsPage() {
   const {
     data: testimonials,
     isLoading,
-    refetch,
+    isError,
+    // refetch,
   } = useQuery<Testimonial[] | undefined>({
     queryKey: ["testimonials"],
     queryFn: async () => {
@@ -59,7 +62,7 @@ export default function TestimonialsPage() {
       );
       return response.data;
     },
-    enabled: false,
+    enabled: !!session.data?.user.id,
   });
 
   const saveTestimonialMutation = useMutation({
@@ -142,23 +145,18 @@ export default function TestimonialsPage() {
   };
 
   if (isLoading) {
-    return (
-      <div className="space-y-6">
-        <h1 className="text-3xl font-bold">Testimonials</h1>
-        <div>Loading...</div>
-      </div>
-    );
+    return <LoadingBlock />;
+  }
+
+  if (isError) {
+    return <ErrorUi />;
   }
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold">Manage Testimonials</h1>
+      <h1 className="text-2xl font-medium">Manage Testimonials</h1>
 
-      <Button onClick={() => refetch()} disabled={isLoading}>
-        Fetch My Content
-      </Button>
-
-      <Card className="md:max-w-[60vw] w-full">
+      <Card className="md:max-w-[95%] w-full rounded-sm dark:bg-white/5 dark:border-white/5">
         <CardHeader>
           <CardTitle>
             {editingTestimonialId ? "Edit Testimonial" : "Add Testimonial"}
@@ -238,9 +236,12 @@ export default function TestimonialsPage() {
         </CardContent>
       </Card>
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+      <div className=" flex flex-row gap-4 flex-wrap w-[98%] ">
         {testimonials?.map((testimonial) => (
-          <Card key={testimonial.id}>
+          <Card
+            key={testimonial.id}
+            className="dark:bg-white/5 w-[320px] rounded-sm dark:border-white/5 border"
+          >
             <CardHeader>
               <div className="flex items-center gap-4">
                 <img
@@ -252,15 +253,6 @@ export default function TestimonialsPage() {
                   draggable={false}
                 />
 
-                {/* <Image
-              src={data[active].imageUrl}
-              alt={data[active].name}
-              width={320}
-              height={320}
-              className="md:h-72 md:w-72 h-52 w-52 rounded-3xl object-cover shadow-lg transition-transform duration-500 hover:scale-105"
-              draggable={false}
-            /> */}
-
                 <div>
                   <CardTitle>{testimonial.name}</CardTitle>
                   <CardDescription>
@@ -270,12 +262,14 @@ export default function TestimonialsPage() {
               </div>
             </CardHeader>
             <CardContent>
-              <p>{testimonial.testimony}</p>
+              <p className=" font-normal text-sm text-black dark:text-white/70 dark:font-normal">
+                {testimonial.testimony}
+              </p>
             </CardContent>
             <CardFooter className="gap-3">
               <Button onClick={() => handleEdit(testimonial)}>Edit</Button>
               <Button
-                variant="destructive"
+                className=" bg-red-500 dark:text-white hover:bg-red-500"
                 onClick={() => handleDelete(testimonial.id)}
               >
                 Delete

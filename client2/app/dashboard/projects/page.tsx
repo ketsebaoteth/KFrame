@@ -1,10 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import ErrorUi from "@/components/blocks/error";
+import LoadingBlock from "@/components/blocks/loadingBlock";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import {
   Card,
   CardContent,
@@ -12,9 +10,16 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import authClient from "@/lib/auth-client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
-import authClient from "@/lib/auth-client";
+import Image from "next/image";
+import Link from "next/link";
+import { useState } from "react";
+import strShorten from "str_shorten";
 
 interface ProjectInterface {
   id: number;
@@ -25,8 +30,6 @@ interface ProjectInterface {
   liveLink: string;
   tags: string[];
 }
-import strShorten from "str_shorten";
-import Image from "next/image";
 
 export default function ProjectsPage() {
   const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL!;
@@ -53,8 +56,7 @@ export default function ProjectsPage() {
   const {
     data: projects,
     isLoading,
-    // isError,
-    refetch,
+    isError,
   } = useQuery({
     queryFn: async () => {
       const response = await axios.get(
@@ -63,9 +65,8 @@ export default function ProjectsPage() {
       return response.data;
     },
     queryKey: ["projects"],
-    enabled: false,
+    enabled: !!session.data?.user.id,
   });
-
   const saveProjectMutation = useMutation({
     mutationFn: async (project: ProjectInterface) => {
       let imageUrl = project.imageUrl;
@@ -181,14 +182,11 @@ export default function ProjectsPage() {
   };
 
   if (isLoading) {
-    return (
-      <div className="space-y-6">
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-          About Me
-        </h1>
-        <div>Loading...</div>
-      </div>
-    );
+    return <LoadingBlock />;
+  }
+
+  if (isError) {
+    return <ErrorUi />;
   }
 
   return (
@@ -197,15 +195,15 @@ export default function ProjectsPage() {
         Projects
       </h1>
 
-      <Button
+      {/* <Button
         onClick={() => refetch()}
         disabled={isLoading}
         className="bg-black/75 dark:bg-white/5 text-white"
       >
         Fetch My Content
-      </Button>
+      </Button> */}
 
-      <Card className="max-w-4xl bg-white border-gray-200 border dark:border-none rounded-md dark:bg-white/5 shadow-sm ">
+      <Card className="max-w-[97%] bg-white border-gray-200 border rounded-sm dark:border-white/5 dark:bg-white/5 shadow-sm ">
         <CardHeader>
           <CardTitle className="text-lg font-medium text-gray-800 dark:text-white">
             {editingProjectId ? "Edit Project" : "Add New Project"}
@@ -343,11 +341,11 @@ export default function ProjectsPage() {
         </CardContent>
       </Card>
 
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <div className=" flex flex-row flex-wrap w-[97%] gap-4">
         {projects?.map((project: ProjectInterface) => (
           <Card
             key={project.id}
-            className="bg-white p-0! dark:bg-white/5 dark:border-white/5 shadow-md rounded-lg"
+            className="bg-white w-[310px] p-0! rounded-sm dark:bg-white/5 dark:border-white/5 shadow-md"
           >
             <CardHeader>
               <CardTitle className="text-gray-800 dark:text-white">
@@ -360,9 +358,9 @@ export default function ProjectsPage() {
                 height={200}
                 src={project.imageUrl}
                 alt={project.name}
-                className="w-full h-40 object-cover rounded-md mb-4"
+                className="w-fit h-52 object-cover rounded-md mb-4"
               />
-              <p className="text-xs text-gray-600 dark:text-gray-400 mb-2 ">
+              <p className="text-xs text-wrap text-gray-600 dark:text-gray-400 mb-2 ">
                 {strShorten(project.description, 400)}
               </p>
               <div className="flex flex-wrap gap-2 mb-2">
@@ -374,6 +372,17 @@ export default function ProjectsPage() {
                     {tag}
                   </span>
                 ))}
+              </div>
+              <div className=" flex justify-between items-center">
+                <Link
+                  href={project.githubUrl}
+                  className=" text-sm underline rounded-md p-2"
+                >
+                  Github
+                </Link>
+                <Link href={project.liveLink} className=" text-sm underline">
+                  Live Link
+                </Link>
               </div>
               <div className="flex gap-4 mt-5">
                 <Button

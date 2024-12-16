@@ -19,6 +19,8 @@ import axios from "axios";
 import authClient from "@/lib/auth-client";
 import { FaLinkedin, FaTelegram, FaGithub, FaTwitter } from "react-icons/fa";
 import { useEffect } from "react";
+import LoadingBlock from "@/components/blocks/loadingBlock";
+import ErrorUi from "@/components/blocks/error";
 
 const LinksPage = () => {
   type LinkType = z.infer<typeof linkSchema>;
@@ -30,8 +32,7 @@ const LinksPage = () => {
     data: fetchedLinks,
     isLoading,
     isError,
-    error,
-    refetch,
+    // isSuccess,
   } = useQuery({
     queryKey: ["links", session.data?.user.id],
     queryFn: async () => {
@@ -42,7 +43,7 @@ const LinksPage = () => {
       );
       return response.data;
     },
-    enabled: !!session.data?.user.id,
+    enabled: !!session.data?.user.id, // Ensure query only runs when session is available
   });
 
   const {
@@ -126,7 +127,7 @@ const LinksPage = () => {
           href={url}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-blue-600"
+          className="text-gray-500 underline font-normal"
         >
           {label}
         </a>
@@ -134,15 +135,19 @@ const LinksPage = () => {
     );
   };
 
+  if (isLoading) {
+    return <LoadingBlock />;
+  }
+
+  if (isError) {
+    return <ErrorUi />;
+  }
+
   return (
     <div className="space-y-6">
-      <h1 className="text-3xl font-bold">Social Links</h1>
+      <h1 className="text-xl font-medium">Social Links</h1>
 
-      <Button onClick={() => refetch()} disabled={isLoading}>
-        Fetch My Content
-      </Button>
-
-      <Card>
+      <Card className=" bg-white/5 md:w-[95%] rounded-sm dark:border-white/5">
         <CardHeader>
           <CardTitle>
             {fetchedLinks ? "Edit Social Links" : "Add Social Links"}
@@ -154,8 +159,6 @@ const LinksPage = () => {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          {isLoading && <p>Loading...</p>}
-          {isError && <p className="text-red-500">Error: {error.message}</p>}
           <form
             className="my-5 flex flex-col gap-5"
             onSubmit={handleSubmit(onSubmit)}

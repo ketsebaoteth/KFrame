@@ -1,10 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import ErrorUi from "@/components/blocks/error";
+import LoadingBlock from "@/components/blocks/loadingBlock";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   Card,
   CardContent,
@@ -13,9 +11,14 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import authClient from "@/lib/auth-client";
+import { generateShortURL } from "@/util/urlShortner";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export default function ProfilePage() {
   const session = authClient.useSession();
@@ -24,8 +27,10 @@ export default function ProfilePage() {
   const cloudinaryUploadPreset =
     process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET!;
 
+  const router = useRouter();
+
   const [profile, setProfile] = useState({
-    image: "/placeholder.svg?height=100&width=100",
+    image: "/user1.png",
     name: "",
     email: "",
   });
@@ -37,7 +42,6 @@ export default function ProfilePage() {
     data: userInfo,
     isLoading,
     isError,
-    error,
   } = useQuery({
     queryKey: ["userData"],
     queryFn: async () => {
@@ -51,11 +55,11 @@ export default function ProfilePage() {
   useEffect(() => {
     if (userInfo) {
       setProfile({
-        image: userInfo.image || "/placeholder.svg?height=100&width=100",
+        image: userInfo.image || "/user1.png",
         name: userInfo.name || "",
         email: userInfo.email || "",
       });
-      setPreviewUrl(userInfo.image || "/placeholder.svg?height=100&width=100");
+      setPreviewUrl(userInfo.image || "/user1.png");
     }
   }, [userInfo]);
 
@@ -119,39 +123,44 @@ export default function ProfilePage() {
     updateUser();
   };
 
-  return (
-    <div className="space-y-6">
-      <h1 className="text-3xl font-bold">User Profile</h1>
+  const userLink = `http://localhost:3001/main/home/${session.data?.user.id}`;
+  const result = generateShortURL(userLink);
 
-      {isLoading && <p>Loading...</p>}
-      {isError && <p className="text-red-500">Error: {error.message}</p>}
+  return (
+    <div className="space-y-6 ">
+      <h1 className="text-2xl font-medium">User Profile</h1>
+
+      {isLoading && <LoadingBlock />}
+      {isError && <ErrorUi />}
 
       {userInfo && (
-        <Card>
+        <Card className=" dark:bg-white/5 md:w-[90%] rounded-sm dark:border-white/5 border ">
           <CardHeader>
-            <Label>
-              {" "}
-              <span className=" font-bold text-lg">id :</span>{" "}
+            <CardDescription>
+              <span className=" font-normal text-sm">id :</span>
               {session.data?.user.id}
-            </Label>
-            <CardTitle>Edit Profile {session.data?.user.name}</CardTitle>
-            <CardDescription>Update your personal information</CardDescription>
+            </CardDescription>
+
+            <CardDescription>
+              <span className=" font-normal text-sm">id :</span>
+              {`http://localhost:3001/main/home/${session.data?.user.id}`}
+            </CardDescription>
+
+            <hr />
+
+            {result}
+
+            <hr />
+            <CardTitle>Edit Profile</CardTitle>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="flex items-center space-x-4">
-                <Avatar className="w-20 h-20">
-                  <AvatarImage
-                    src={previewUrl || profile.image}
-                    alt={profile.name}
-                  />
-                  <AvatarFallback>
-                    {profile.name
-                      .split(" ")
-                      .map((n) => n[0])
-                      .join("")}
-                  </AvatarFallback>
-                </Avatar>
+                <img
+                  src={previewUrl || profile.image || "/user1.png"}
+                  alt={profile.name}
+                  className=" w-14  h-14 rounded-full"
+                />
                 <input type="file" onChange={handleFileChange} />
               </div>
               <div className="space-y-2">
@@ -183,9 +192,29 @@ export default function ProfilePage() {
               )}
             </form>
           </CardContent>
-          <CardFooter>
-            <Button type="submit" onClick={handleSubmit} disabled={isPending}>
+          <CardFooter className=" flex gap-5 items-center">
+            <Button
+              type="submit"
+              onClick={handleSubmit}
+              disabled={isPending}
+              className=" dark:bg-white/10 dark:border-white/5 dark:text-white"
+            >
               {isPending ? "Updating..." : "Update Profile"}
+            </Button>
+
+            <Button
+              type="submit"
+              onClick={async () => {
+                const response = await authClient.signOut();
+
+                const loggedOut = response.data?.success;
+                if (loggedOut) {
+                  router.push("/login");
+                }
+              }}
+              className=" dark:bg-red-500 dark:border-none dark:text-white"
+            >
+              Log Out
             </Button>
           </CardFooter>
         </Card>

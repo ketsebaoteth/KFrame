@@ -1,4 +1,4 @@
-import { SquareDashedBottomCode } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { ThemeToggle } from "../theme-toggle";
 
@@ -10,8 +10,18 @@ export function Nav() {
           href="https://github.com/yeabnoah/frame"
           className="flex items-center gap-2"
         >
-          <SquareDashedBottomCode className=" h-7 w-7" />
-          <span className="text-base font-medium">Frame</span>
+          <div className=" flex flex-row items-center ">
+            <Image
+              src="/logo.png"
+              alt="logo"
+              height={30}
+              width={30}
+              className=" -rotate-[-20deg]"
+            />
+            <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
+              Frame
+            </h2>
+          </div>
         </Link>
       </div>
       <div className="flex gap-5 items-center ">

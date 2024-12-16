@@ -19,19 +19,6 @@ export default function LoginScreen() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  // const redirectLoggedIn = async () => {
-  //   const sth = await authClient.getSession();
-  //   const session = sth.data?.session;
-
-  //   if (session) {
-  //     router.push("/dashboard");
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   redirectLoggedIn();
-  // }, []);
-
   const handleSignIn = async () => {
     await authClient.signIn.email(
       {
@@ -121,7 +108,14 @@ export default function LoginScreen() {
               {loading ? "Signing in..." : "Sign In"}
             </Button>
             <div className="grid grid-cols-2 gap-2">
-              <Button className="w-full h-9 hover:bg-white/5 text-sm text-white bg-white/5">
+              <Button
+                onClick={async () => {
+                  await authClient.signIn.social({
+                    provider: "google",
+                  });
+                }}
+                className="w-full h-9 hover:bg-white/5 text-sm text-white bg-white/5"
+              >
                 <svg
                   className="mr-2 h-3.5 w-3.5"
                   viewBox="0 0 24 24"
@@ -146,7 +140,14 @@ export default function LoginScreen() {
                 </svg>
                 Google
               </Button>
-              <Button className="w-full h-9 hover:bg-white/5 text-white text-sm bg-white/5">
+              <Button
+                onClick={async () => {
+                  await authClient.signIn.social({
+                    provider: "github",
+                  });
+                }}
+                className="w-full h-9 hover:bg-white/5 text-sm text-white bg-white/5"
+              >
                 <svg
                   className="mr-2 h-3.5 w-3.5"
                   fill="currentColor"

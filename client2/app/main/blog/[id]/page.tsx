@@ -5,6 +5,8 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import ArticlesInterface from "@/interface/articles";
 import { XIcon } from "lucide-react";
+import ErrorUi from "@/components/blocks/error";
+import LoadingBlock from "@/components/blocks/loadingBlock";
 
 const Blog = ({ params }: { params: { id: string } }) => {
   const id = params.id;
@@ -33,15 +35,11 @@ const Blog = ({ params }: { params: { id: string } }) => {
   };
 
   if (isLoading) {
-    return <p className="text-center my-10">Loading...</p>;
+    return <LoadingBlock />;
   }
 
   if (isError) {
-    return (
-      <p className="text-center my-10 text-red-500">
-        Something went wrong while fetching the articles.
-      </p>
-    );
+    return <ErrorUi />;
   }
 
   return (

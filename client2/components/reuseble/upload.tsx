@@ -46,7 +46,7 @@ const CloudinaryUpload: React.FC<CloudinaryUploadProps> = ({
   return (
     <div>
       <label
-        className="relative inline-block px-2 py-2 dark:bg-black/40 hover:bg-black/45 border cursor-pointer text-muted-foreground rounded-none transition-all duration-200 hover:text-white active:bg-muted"
+        className="relative inline-block px-2 py-2  border cursor-pointer  rounded-none text-white transition-all duration-200  active:bg-muted bg-black/90 dark:bg-black/30 dark:border-white/5"
         htmlFor="file-upload"
       >
         {selectedFile ? selectedFile.name : "Choose an image to upload"}

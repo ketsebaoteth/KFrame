@@ -16,6 +16,8 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import authClient from "@/lib/auth-client";
 import Image from "next/image";
+import LoadingBlock from "@/components/blocks/loadingBlock";
+// import ErrorUi from "@/components/blocks/error";
 
 interface AboutInterface {
   mainRole?: string;
@@ -105,7 +107,9 @@ export default function AboutPage() {
     setSelectedAboutImage(null);
   };
 
-  const handleInputChange = (e: any) => {
+  const handleInputChange = (e: {
+    target: { name: string; value: string };
+  }) => {
     const { name, value } = e.target;
     setAboutInfo((prev) => ({ ...prev, [name]: value }));
   };
@@ -124,23 +128,19 @@ export default function AboutPage() {
     updateInfoMutation.mutate(aboutInfo);
   };
 
-  if (userInfo.isLoading) {
-    return (
-      <div className="space-y-6">
-        <h1 className="text-3xl font-bold">About Me</h1>
-        <div>Loading...</div>
-      </div>
-    );
+  if (userInfo && userInfo.isLoading) {
+    return <LoadingBlock />;
   }
 
-  return (
-    <div className="space-y-6">
-      <h1 className="text-3xl font-bold">About Me</h1>
+  // if (userInfo && userInfo.isError) {
+  //   return <ErrorUi />;
+  // }
 
-      <Button onClick={() => userInfo.refetch()} disabled={userInfo.isLoading}>
-        Fetch My Content
-      </Button>
-      <Card>
+  return (
+    <div className="space-y-6 overflow-y-scroll">
+      <h1 className="text-2xl font-medium">About Me</h1>
+
+      <Card className=" rounded-sm dark:bg-white/5 dark:border-white/5 md:w-[97%]">
         <CardHeader>
           <CardTitle>Edit About Information</CardTitle>
           <CardDescription>
@@ -176,7 +176,7 @@ export default function AboutPage() {
                 name="word"
                 value={aboutInfo.word || "Developer"}
                 onChange={handleInputChange}
-                className="border rounded-md px-3 py-2"
+                className="border px-3 py-1 dark:bg-white/5 mx-5 rounded-sm"
               >
                 <option value="Developer">Developer</option>
                 <option value="Engineer">Engineer</option>
@@ -220,46 +220,66 @@ export default function AboutPage() {
 
       {/* Preview Section */}
       <Suspense fallback={<div>Loading preview...</div>}>
-        <Card>
+        <Card className="rounded-sm dark:bg-white/5 dark:border-white/5 md:w-[97%]">
           <CardHeader>
-            <CardTitle>Preview</CardTitle>
+            <CardTitle>Profile Preview</CardTitle>
           </CardHeader>
-          <CardContent className="space-y-4">
-            <p>
-              <strong>Main Role:</strong> {aboutInfo.mainRole}
-            </p>
-            <p>
-              <strong>Moto:</strong> {aboutInfo.moto}
-            </p>
-            <p>
-              <strong>Word:</strong> {aboutInfo.word}
-            </p>
-            <p>
-              <strong>About Description:</strong> {aboutInfo.aboutDescription}
-            </p>
-            {aboutInfo.homeImageUrl && (
+
+          <CardContent className="space-y-6">
+            {/* Main Role and Motto */}
+            <div className="space-y-2">
+              <p>
+                <strong>Main Role:</strong> {aboutInfo.mainRole || "N/A"}
+              </p>
+              <p>
+                <strong>Motto:</strong> {aboutInfo.moto || "N/A"}
+              </p>
+            </div>
+
+            {/* About Description */}
+            {aboutInfo.aboutDescription && (
               <div>
-                <strong>Home Image:</strong>
-                <Image
-                  src={aboutInfo.homeImageUrl}
-                  alt="Home Image"
-                  width={300}
-                  height={200}
-                  className="rounded-md mt-2"
-                />
+                <strong>About Description:</strong>
+                <p className="mt-1 text-gray-700 dark:text-gray-300">
+                  {aboutInfo.aboutDescription}
+                </p>
               </div>
             )}
-            {aboutInfo.aboutImageUrl && (
-              <div>
-                <strong>About Image:</strong>
-                <Image
-                  src={aboutInfo.aboutImageUrl}
-                  alt="About Image"
-                  width={300}
-                  height={200}
-                  className="rounded-md mt-2"
-                />
-              </div>
+
+            {/* Images Section */}
+            <div className="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0">
+              {aboutInfo.homeImageUrl && (
+                <div className="flex-1">
+                  <strong>Home Image:</strong>
+                  <Image
+                    src={aboutInfo.homeImageUrl}
+                    alt="Home Image"
+                    width={100}
+                    height={200}
+                    className="rounded-md mt-2"
+                  />
+                </div>
+              )}
+
+              {aboutInfo.aboutImageUrl && (
+                <div className="flex-1">
+                  <strong>About Image:</strong>
+                  <Image
+                    src={aboutInfo.aboutImageUrl}
+                    alt="About Image"
+                    width={100}
+                    height={200}
+                    className="rounded-md mt-2"
+                  />
+                </div>
+              )}
+            </div>
+
+            {/* Word Section */}
+            {aboutInfo.word && (
+              <p className="mt-4">
+                <strong>Word:</strong> {aboutInfo.word}
+              </p>
             )}
           </CardContent>
         </Card>

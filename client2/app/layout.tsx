@@ -13,7 +13,7 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "Framer",
+  title: "Frame",
   description: "Developer Portfolio Builder",
 };
 
