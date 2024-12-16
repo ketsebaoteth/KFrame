@@ -21,13 +21,6 @@ import publicUserRouter from "./routes/public/user";
 
 const app = new Hono();
 
-app.options("*", (c) => {
-  c.header("Access-Control-Allow-Origin", "*");
-  c.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-  c.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
-  return c.text("");
-});
-
 app.use(
   "/*",
   cors({

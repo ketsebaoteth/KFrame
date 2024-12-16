@@ -47,19 +47,19 @@ export const Timeline = ({ data }: { data: ProjectInterface[] }) => {
           >
             <div className="sticky flex flex-col md:flex-row z-40 items-center top-20 md:top-40 self-start max-w-xs lg:max-w-sm md:w-full">
               <div className="h-8 md:h-10 absolute left-0 md:left-3 w-8 md:w-10 rounded-full bg-white dark:bg-black flex items-center justify-center">
-                <div className="h-3 md:h-4 w-3 md:w-4 rounded-full bg-neutral-200 dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-700 p-2" />
+                <div className="h-3 md:h-4 w-3 md:w-4 rounded-full bg-neutral-200 dark:bg-white/5 border border-neutral-300 dark:border-white/5 p-2" />
               </div>
               <h3 className="hidden md:block text-xl md:pl-20 md:text-xl font-bold text-neutral-500 dark:text-neutral-500">
                 {item.name}
               </h3>
             </div>
 
-            <div className="relative pl-12 md:pl-4 w-full shadow-black/15 rounded-2xl shadow-xl p-5 group overflow-hidden bg-white dark:bg-gray-800">
+            <div className="relative pl-12 md:pl-4 w-full shadow-black/15 rounded-2xl shadow-xl p-5 group overflow-hidden bg-white dark:bg-white/5">
               {/* Image with Hover Effects */}
               <div className="relative overflow-hidden rounded-lg">
                 <img
                   src={item.imageUrl}
-                  className="object-cover h-64 w-full rounded-lg transition-transform duration-500 ease-out transform group-hover:scale-105 group-hover:rotate-2 group-hover:shadow-2xl"
+                  className="object-cover h-64 w-full rounded-lg transition-transform duration-500 ease-out transform group-hover:scale-105 group-hover:shadow-2xl"
                   alt="thumbnail"
                 />
                 {/* Gradient Overlay on Hover */}
@@ -81,7 +81,7 @@ export const Timeline = ({ data }: { data: ProjectInterface[] }) => {
                 {item.tags.map((tech) => (
                   <span
                     key={tech}
-                    className="px-2 py-0.5 text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-100 rounded-full shadow-inner transition-all duration-300 hover:bg-blue-500 hover:text-white dark:hover:bg-blue-600"
+                    className="px-2 py-0.5 text-xs font-medium bg-gray-100 dark:bg-white/5 text-gray-800 dark:text-gray-100 rounded-full shadow-inner transition-all duration-300 hover:bg-gray-700 hover:text-white dark:hover:bg-white/5"
                   >
                     {tech}
                   </span>
@@ -93,14 +93,14 @@ export const Timeline = ({ data }: { data: ProjectInterface[] }) => {
                 <Link
                   href={item.githubUrl}
                   target="_blank"
-                  className="px-3 py-1 text-sm font-medium text-gray-700 dark:text-gray-200 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 hover:shadow-md transition-all duration-300"
+                  className="px-3 py-1 text-sm font-medium text-gray-700 dark:text-gray-200 border dark:border-none border-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 hover:shadow-md transition-all duration-300"
                 >
                   View Code →
                 </Link>
                 <Link
                   href={item.liveLink}
                   target="_blank"
-                  className="px-3 py-1 text-sm font-medium text-white bg-black dark:bg-gray-900 rounded-lg hover:bg-gray-800 dark:hover:bg-gray-700 hover:shadow-md transition-all duration-300"
+                  className="px-3 py-1 text-sm font-medium text-white bg-black dark:bg-white/5 rounded-lg hover:bg-gray-800 dark:hover:bg-gray-700 hover:shadow-md transition-all duration-300"
                 >
                   Live Preview
                 </Link>

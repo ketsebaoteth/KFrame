@@ -1,8 +1,6 @@
 "use client";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
 import {
   Sidebar,
   SidebarContent,
@@ -15,19 +13,18 @@ import {
   SidebarRail,
   useSidebar,
 } from "@/components/ui/sidebar";
-import authClient from "@/lib/auth-client";
 import {
   Briefcase,
   FileText,
   FolderKanban,
   Info,
   Link,
-  LogOut,
   MessageSquare,
+  SquareDashedBottomCodeIcon,
   User,
   X,
 } from "lucide-react";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 const navItems = [
   { icon: FileText, label: "Articles", href: "/dashboard/articles" },
@@ -46,29 +43,17 @@ const navItems = [
 export function DashboardSidebar() {
   const pathname = usePathname();
   const { toggleSidebar } = useSidebar();
-  const router = useRouter();
-
-  const handleLogout = async () => {
-    try {
-      const signout = await authClient.signOut();
-      if (signout.data?.success) {
-        router.push("/");
-      }
-
-      console.log("Logging out...");
-    } catch (err: unknown) {
-      alert(`Error while logging out ${err}`);
-    }
-  };
-
-  const session = authClient.useSession();
 
   return (
-    <Sidebar className="border-r bg-white dark:bg-gray-800">
+    <Sidebar className="border-r !zbg-black">
       <SidebarHeader className="border-b px-6 py-4 flex items-center justify-between">
-        <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
-          Portfolio Dashboard
-        </h2>
+        <div className=" flex flex-row gap-3 items-center">
+          <SquareDashedBottomCodeIcon />
+          <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
+            Frame
+          </h2>
+        </div>
+
         <Button
           variant="ghost"
           size="icon"
@@ -82,10 +67,14 @@ export function DashboardSidebar() {
       <SidebarContent className="flex flex-col h-[calc(100vh-5rem)]">
         <SidebarGroup>
           <SidebarGroupContent>
-            <SidebarMenu>
+            <SidebarMenu className=" gap-3">
               {navItems.map((item) => (
                 <SidebarMenuItem key={item.href}>
-                  <SidebarMenuButton asChild isActive={pathname === item.href}>
+                  <SidebarMenuButton
+                    className=" text-base py-5"
+                    asChild
+                    isActive={pathname === item.href}
+                  >
                     <a
                       href={item.href}
                       className="flex items-center gap-3 px-4 py-2 text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg transition duration-300 ease-in-out"
@@ -99,43 +88,6 @@ export function DashboardSidebar() {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
-        <div className="mt-auto">
-          <Separator className="my-4" />
-          <SidebarGroup>
-            <SidebarGroupContent>
-              <SidebarMenu>
-                <SidebarMenuItem>
-                  <SidebarMenuButton onClick={handleLogout} className="w-full">
-                    <div className="flex items-center gap-3 px-4 py-2 text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg transition duration-300 ease-in-out">
-                      <Avatar className="h-8 w-8">
-                        <AvatarImage
-                          src={
-                            session.data?.user.image
-                              ? (session.data?.user.image as string)
-                              : `/nerd.png?height=32&width=32`
-                          }
-                          alt="User"
-                        />
-                        <AvatarFallback>U</AvatarFallback>
-                      </Avatar>
-                      <div className="flex flex-col items-start">
-                        <span className="text-sm font-medium text-gray-900 dark:text-gray-100">
-                          {session.data?.user.name
-                            ? session.data?.user.name
-                            : "User Name"}
-                        </span>
-                        <span className="text-xs text-muted-foreground">
-                          Logout
-                        </span>
-                      </div>
-                      <LogOut className="h-5 w-5 ml-auto" />
-                    </div>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              </SidebarMenu>
-            </SidebarGroupContent>
-          </SidebarGroup>
-        </div>
       </SidebarContent>
       <SidebarRail />
     </Sidebar>

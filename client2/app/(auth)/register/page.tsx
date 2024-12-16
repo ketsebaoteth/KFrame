@@ -8,21 +8,22 @@ import { Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
 import { ThemeToggle } from "../../../components/theme-toggle";
 import Image from "next/image";
-import authClient from "@/lib/auth-client";
 import { signUpSchema } from "@/validation/signUp";
 import { useRouter } from "next/navigation";
+import authClient from "@/lib/auth-client";
 
 export default function RegisterScreen() {
   const [showPassword, setShowPassword] = React.useState(false);
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [name, setName] = React.useState("");
-  const [loading, setLoading] = React.useState(false);
   const [confirmPassword, setConfirmPassword] = React.useState("");
+  const [loading, setLoading] = React.useState(false);
   const [errors, setErrors] = React.useState<Record<string, string>>({});
   const router = useRouter();
 
   const signUp = async () => {
+    // Validate form input
     const validation = signUpSchema.safeParse({
       email,
       password,
@@ -38,28 +39,24 @@ export default function RegisterScreen() {
       setErrors(errorMap);
       return;
     }
+
     setErrors({});
 
-    const { data, error } = await authClient.signUp.email(
-      {
+    // Call the signup function (make sure your authClient is correctly set up)
+    try {
+      setLoading(true);
+      await authClient.signUp.email({
         email,
         password,
         name,
-      },
-      {
-        onRequest: (ctx) => {
-          setLoading(true);
-        },
-        onSuccess: (ctx) => {
-          setLoading(false);
-          router.push("/");
-        },
-        onError: (ctx) => {
-          setLoading(false);
-          alert(ctx.error.message);
-        },
-      }
-    );
+      });
+      router.push("/"); // Redirect to home or other page upon success
+    } catch (err) {
+      setLoading(false);
+      alert("Error: " + err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (

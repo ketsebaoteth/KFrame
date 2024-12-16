@@ -45,7 +45,7 @@ const Blog = ({ params }: { params: { id: string } }) => {
   }
 
   return (
-    <div className="px-4 sm:px-8 md:px-14">
+    <div className="px-4 sm:px-8 md:px-14 mb-52">
       <div className="max-w-6xl mx-auto pt-10 sm:pt-16 md:pt-20">
         <h2 className="text-3xl sm:text-3xl md:text-4xl mb-3 md:mb-4 text-black dark:text-white mt-5">
           Some of my thoughts and learnings
@@ -60,7 +60,7 @@ const Blog = ({ params }: { params: { id: string } }) => {
           blogs.map((blog: ArticlesInterface) => (
             <div
               key={blog.id}
-              className="p-5 border rounded-lg shadow-sm hover:shadow-md transition-shadow dark:bg-neutral-800 dark:border-neutral-700"
+              className="p-5 border rounded-lg shadow-sm hover:shadow-md transition-shadow dark:bg-white/5 dark:border-white/5"
             >
               <h3 className="text-2xl font-semibold text-black dark:text-white mb-2">
                 {blog.title}
@@ -81,7 +81,7 @@ const Blog = ({ params }: { params: { id: string } }) => {
                 {blog.tags.map((tag, index) => (
                   <span
                     key={index}
-                    className="bg-gray-100 text-gray-700 dark:bg-gray-900 dark:text-gray-200 px-2 py-1 text-xs rounded-full"
+                    className="bg-gray-100 text-gray-700 dark:bg-white/5 dark:text-gray-200 px-2 py-1 text-xs rounded-full"
                   >
                     #{tag}
                   </span>
@@ -111,7 +111,7 @@ interface ModalProps {
 const Modal = ({ blog, onClose }: ModalProps) => {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 scroll-smooth overflow-y-scroll">
-      <div className="bg-white dark:bg-neutral-800 rounded-lg shadow-lg w-full md:max-w-[80vw] md:max-h-[90vh] max-h-[80vh] overflow-y-scroll p-6 scroll-smooth">
+      <div className="bg-white dark:bg-neutral-900 rounded-lg shadow-lg w-full md:max-w-[80vw] md:max-h-[90vh] max-h-[80vh] overflow-y-scroll p-6 scroll-smooth">
         <button
           onClick={onClose}
           className="mt-4 p-1 bg-red-400 rounded-full text-white hover:bg-red-500 mb-5"
@@ -129,7 +129,7 @@ const Modal = ({ blog, onClose }: ModalProps) => {
           {blog.tags.map((tag, index) => (
             <span
               key={index}
-              className="bg-gray-300 text-gray-900 dark:bg-gray-900 dark:text-gray-200 px-2 py-1 text-xs rounded-full"
+              className="bg-gray-300 text-gray-900 dark:bg-neutral-800 dark:text-gray-200 px-2 py-1 text-base rounded-full"
             >
               #{tag}
             </span>

@@ -16,10 +16,13 @@ export default async function authMiddleware(request: NextRequest) {
   );
 
   if (!session && pathname.startsWith("/dashboard")) {
-    return NextResponse.redirect(new URL("/", request.url));
+    return NextResponse.redirect(new URL("/login", request.url));
   }
 
-  if (session && (pathname === "/" || pathname === "/auth/register")) {
+  if (
+    session &&
+    (pathname === "/login" || pathname === "/register" || pathname === "/")
+  ) {
     return NextResponse.redirect(new URL("/dashboard", request.url));
   }
 
@@ -27,5 +30,5 @@ export default async function authMiddleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/dashboard/:path*", "/", "/auth/register"],
+  matcher: ["/dashboard/:path*", "/", "/login", "/register"],
 };

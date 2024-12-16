@@ -50,11 +50,10 @@ export default function ProjectsPage() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
-  // Set enabled to false so the data is not fetched on page load
   const {
     data: projects,
     isLoading,
-    isError,
+    // isError,
     refetch,
   } = useQuery({
     queryFn: async () => {
@@ -85,18 +84,25 @@ export default function ProjectsPage() {
         }
       }
 
+      const projectData = {
+        name: project.name,
+        imageUrl,
+        description: project.description,
+        githubUrl: project.githubUrl,
+        liveLink: project.liveLink,
+        tags: project.tags,
+      };
+
       if (editingProjectId) {
         return await axios.patch(
           `${backendUrl}/projects/${editingProjectId}`,
-          { ...project, imageUrl },
+          projectData,
           { withCredentials: true }
         );
       } else {
-        return await axios.post(
-          `${backendUrl}/projects`,
-          { ...project, imageUrl },
-          { withCredentials: true }
-        );
+        return await axios.post(`${backendUrl}/projects`, projectData, {
+          withCredentials: true,
+        });
       }
     },
     onSuccess: () => {
@@ -177,37 +183,53 @@ export default function ProjectsPage() {
   if (isLoading) {
     return (
       <div className="space-y-6">
-        <h1 className="text-3xl font-bold">About Me</h1>
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+          About Me
+        </h1>
         <div>Loading...</div>
       </div>
     );
   }
 
   return (
-    <div className="space-y-6">
-      <h1 className="text-3xl font-bold">Projects</h1>
+    <div className="space-y-6 p-4 min-h-screen">
+      <h1 className="text-3xl font-semibold text-gray-900 dark:text-white">
+        Projects
+      </h1>
 
-      {/* Button to trigger manual fetching */}
-      <Button onClick={() => refetch()} disabled={isLoading}>
+      <Button
+        onClick={() => refetch()}
+        disabled={isLoading}
+        className="bg-black/75 dark:bg-white/5 text-white"
+      >
         Fetch My Content
       </Button>
 
-      <Card className=" md:max-w-[60vw] w-full">
+      <Card className="max-w-4xl bg-white border-gray-200 border dark:border-none rounded-md dark:bg-white/5 shadow-sm ">
         <CardHeader>
-          <CardTitle className="text-lg">
+          <CardTitle className="text-lg font-medium text-gray-800 dark:text-white">
             {editingProjectId ? "Edit Project" : "Add New Project"}
           </CardTitle>
-          <CardDescription className="text-sm">
+          <CardDescription className="text-sm text-gray-500 dark:text-gray-400">
             {editingProjectId
               ? "Update your project details"
               : "Create a new project entry"}
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="space-y-1">
-              <Label htmlFor="imageUrl">Project Image</Label>
-              <Input type="file" onChange={handleFileChange} />
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="space-y-2">
+              <Label
+                htmlFor="imageUrl"
+                className="text-gray-700 dark:text-gray-300"
+              >
+                Project Image
+              </Label>
+              <Input
+                type="file"
+                onChange={handleFileChange}
+                className="border-gray-300 dark:border-white/5"
+              />
               {previewUrl && (
                 <Image
                   width={200}
@@ -219,45 +241,100 @@ export default function ProjectsPage() {
               )}
             </div>
 
-            <div className="space-y-1">
-              <Label htmlFor="name">Project Name</Label>
+            <div className="space-y-2">
+              <Label
+                htmlFor="name"
+                className="text-gray-700 dark:text-gray-300"
+              >
+                Project Name
+              </Label>
               <Input
                 id="name"
                 name="name"
                 value={newProject.name}
                 onChange={handleInputChange}
                 required
+                className="border-gray-300 dark:border-white/5"
               />
             </div>
 
-            <div className="space-y-1">
-              <Label htmlFor="description">Description</Label>
+            <div className="space-y-2">
+              <Label
+                htmlFor="description"
+                className="text-gray-700 dark:text-gray-300"
+              >
+                Description
+              </Label>
               <Textarea
                 id="description"
                 name="description"
                 value={newProject.description}
                 onChange={handleInputChange}
                 required
+                className="border-gray-300 dark:border-white/5"
               />
             </div>
 
-            <div className="space-y-1">
-              <Label htmlFor="tags">Tags (comma-separated)</Label>
+            <div className="space-y-2">
+              <Label
+                htmlFor="githubUrl"
+                className="text-gray-700 dark:text-gray-300"
+              >
+                GitHub URL
+              </Label>
+              <Input
+                id="githubUrl"
+                name="githubUrl"
+                value={newProject.githubUrl}
+                onChange={handleInputChange}
+                required
+                className="border-gray-300 dark:border-white/5"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label
+                htmlFor="liveLink"
+                className="text-gray-700 dark:text-gray-300"
+              >
+                Live Link
+              </Label>
+              <Input
+                id="liveLink"
+                name="liveLink"
+                value={newProject.liveLink}
+                onChange={handleInputChange}
+                required
+                className="border-gray-300 dark:border-white/5"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label
+                htmlFor="tags"
+                className="text-gray-700 dark:text-gray-300"
+              >
+                Tags (comma-separated)
+              </Label>
               <Input
                 id="tags"
                 name="tags"
                 value={newProject.tags.join(", ")}
                 onChange={handleTagsChange}
-                className="h-8 py-5"
+                className="h-8 py-3 border-gray-300 dark:border-white/5"
               />
             </div>
 
-            <div className="flex gap-2 justify-end">
-              <Button type="submit" disabled={saveProjectMutation.isPending}>
+            <div className="flex gap-4 justify-end">
+              <Button
+                type="submit"
+                disabled={saveProjectMutation.isPending}
+                className="bg-black/75 text-white dark:bg-white/5"
+              >
                 {editingProjectId ? "Update Project" : "Add Project"}
               </Button>
               {editingProjectId && (
-                <Button type="button" variant="secondary" onClick={resetForm}>
+                <Button onClick={resetForm} className="bg-red-500 text-white ">
                   Cancel Edit
                 </Button>
               )}
@@ -266,14 +343,16 @@ export default function ProjectsPage() {
         </CardContent>
       </Card>
 
-      {isLoading && <p>Loading projects...</p>}
-      {isError && <p>Error loading projects.</p>}
-
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {projects?.map((project: ProjectInterface) => (
-          <Card key={project.id} className=" p-0">
+          <Card
+            key={project.id}
+            className="bg-white p-0! dark:bg-white/5 dark:border-white/5 shadow-md rounded-lg"
+          >
             <CardHeader>
-              <CardTitle>{project.name}</CardTitle>
+              <CardTitle className="text-gray-800 dark:text-white">
+                {project.name}
+              </CardTitle>
             </CardHeader>
             <CardContent>
               <Image
@@ -281,27 +360,30 @@ export default function ProjectsPage() {
                 height={200}
                 src={project.imageUrl}
                 alt={project.name}
-                className="w-full h-40 object-cover mb-4 rounded-md"
+                className="w-full h-40 object-cover rounded-md mb-4"
               />
-              <p className="text-sm text-muted-foreground mb-2">
+              <p className="text-xs text-gray-600 dark:text-gray-400 mb-2 ">
                 {strShorten(project.description, 400)}
               </p>
               <div className="flex flex-wrap gap-2 mb-2">
                 {project.tags.map((tag, index) => (
                   <span
                     key={index}
-                    className="bg-secondary text-secondary-foreground px-2 py-1 rounded-full text-xs"
+                    className="bg-gray-200 dark:bg-white/5 dark:text-white text-black/70 px-2 py-1 rounded-full text-xs"
                   >
                     {tag}
                   </span>
                 ))}
               </div>
-              <div className="flex gap-2">
-                <Button variant="secondary" onClick={() => handleEdit(project)}>
+              <div className="flex gap-4 mt-5">
+                <Button
+                  onClick={() => handleEdit(project)}
+                  className=" bg-black/80 dark:bg-white/10 text-white"
+                >
                   Edit
                 </Button>
                 <Button
-                  className=" bg-red-500 text-white hover:bg-red-600 "
+                  className="bg-red-500 dark:bg-red-500 py-1 text-white hover:bg-red-600"
                   onClick={() => handleDelete(project.id)}
                 >
                   Delete
