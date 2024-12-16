@@ -1,18 +1,21 @@
 "use client";
 
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
-import toast from "react-hot-toast";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import axios from "axios";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import authClient from "@/lib/auth-client";
-import { PencilIcon, Trash2Icon } from "lucide-react";
 import ErrorUi from "@/components/blocks/error";
 import LoadingBlock from "@/components/blocks/loadingBlock";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import authClient from "@/lib/auth-client";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import { PencilIcon, Trash2Icon } from "lucide-react";
+import dynamic from "next/dynamic";
+import { useState } from "react";
+import toast from "react-hot-toast";
+import "react-quill/dist/quill.snow.css";
+
+// Dynamically import ReactQuill with SSR disabled
+const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 
 interface ArticleInterface {
   id: string;
@@ -102,7 +105,6 @@ export default function ArticlesPage() {
     mutationFn: async (article: ArticleInterface) => {
       const { id, ...articleData } = article;
 
-      // Send only the article data without the id
       const response = await axios.patch(
         `${backendUrl}/article/${id}`,
         articleData,
@@ -204,23 +206,25 @@ export default function ArticlesPage() {
           </div>
           <div className="space-y-2">
             <Label htmlFor="description">Description</Label>
-            <ReactQuill
-              value={newArticle.description}
-              onChange={handleDescriptionChange}
-              style={{ color: "white" }}
-              modules={{
-                toolbar: [
-                  [{ header: "1" }, { header: "2" }, { font: [] }],
-                  [{ list: "ordered" }, { list: "bullet" }],
-                  ["bold", "italic", "underline", "strike"],
-                  [{ align: [] }],
-                  ["link", "image"],
-                  ["blockquote"],
-                  ["code-block"],
-                ],
-              }}
-              theme="snow"
-            />
+            {typeof window !== "undefined" && ReactQuill && (
+              <ReactQuill
+                value={newArticle.description}
+                onChange={handleDescriptionChange}
+                style={{ color: "white" }}
+                modules={{
+                  toolbar: [
+                    [{ header: "1" }, { header: "2" }, { font: [] }],
+                    [{ list: "ordered" }, { list: "bullet" }],
+                    ["bold", "italic", "underline", "strike"],
+                    [{ align: [] }],
+                    ["link", "image"],
+                    ["blockquote"],
+                    ["code-block"],
+                  ],
+                }}
+                theme="snow"
+              />
+            )}
             {errors.description && (
               <p className="text-red-500 text-sm">{errors.description}</p>
             )}

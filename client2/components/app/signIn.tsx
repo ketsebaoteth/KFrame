@@ -1,15 +1,18 @@
 "use client";
 import authClient from "@/lib/auth-client"; //import the auth client
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
-  const [image, setImage] = useState<File | null>(null);
+  // const [image, setImage] = useState<File | null>(null);
+
+  const router = useRouter();
 
   const signUp = async () => {
-    const { data, error } = await authClient.signUp.email(
+    await authClient.signUp.email(
       {
         email,
         password,
@@ -17,11 +20,9 @@ export default function SignUp() {
         // image: image ? convertImageToBase64(image) : undefined,
       },
       {
-        onRequest: (ctx) => {
-          //show loading
-        },
         onSuccess: (ctx) => {
-          //redirect to the dashboard
+          console.log(ctx.data);
+          router.push("/dashboard");
         },
         onError: (ctx) => {
           alert(ctx.error.message);
