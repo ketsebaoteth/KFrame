@@ -6,6 +6,10 @@ const authClient = createAuthClient({
     crossSubDomainCookies: {
       enabled: true,
     },
+    defaultCookieAttributes: {
+      sameSite: "none",
+      secure: true,
+    },
   },
 });
 
