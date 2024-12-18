@@ -27,6 +27,7 @@ export default function ProfilePage() {
   const cloudinaryUploadPreset =
     process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET!;
 
+  const frontendUrl = process.env.NEXT_PUBLIC_FRONTEND_URL as string;
   const router = useRouter();
 
   const [profile, setProfile] = useState({
@@ -123,7 +124,7 @@ export default function ProfilePage() {
     updateUser();
   };
 
-  const userLink = `http://localhost:3001/main/home/${session.data?.user.id}`;
+  const userLink = `${frontendUrl}/main/home/${session.data?.user.id}`;
   const result = generateShortURL(userLink);
 
   return (
@@ -143,7 +144,7 @@ export default function ProfilePage() {
 
             <CardDescription>
               <span className=" font-normal text-sm">id :</span>
-              {`http://localhost:3001/main/home/${session.data?.user.id}`}
+              {`${frontendUrl}/main/home/${session.data?.user.id}`}
             </CardDescription>
 
             <hr />
