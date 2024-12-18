@@ -30,10 +30,9 @@ app.use(
   })
 );
 
-app.get("/api/auth/*", cors(), (c) => auth.handler(c.req.raw));
+app.get("/api/auth/*", (c) => auth.handler(c.req.raw));
 app.post("/api/auth/*", cors(), (c) => auth.handler(c.req.raw));
 
-// base test api
 app.get("/", (c) => {
   return c.text("test confirmed");
 });
