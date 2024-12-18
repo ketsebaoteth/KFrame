@@ -43,7 +43,7 @@ export const Timeline = ({ data }: { data: ProjectInterface[] }) => {
         {data.map((item, index) => (
           <div
             key={index}
-            className="flex justify-start pt-5 md:pt-32 md:gap-20 px-4 md:px-0"
+            className="flex justify-start pt-5 md:pt-32 md:gap-20 gap-10 px-4 md:px-0"
           >
             <div className="sticky flex flex-col md:flex-row z-40 items-center top-20 md:top-40 self-start max-w-xs lg:max-w-sm md:w-full">
               <div className="h-8 md:h-10 absolute left-0 md:left-3 w-8 md:w-10 rounded-full bg-white dark:bg-black flex items-center justify-center">
@@ -54,7 +54,7 @@ export const Timeline = ({ data }: { data: ProjectInterface[] }) => {
               </h3>
             </div>
 
-            <div className="relative pl-12 md:pl-4 w-full shadow-black/15 rounded-2xl shadow-xl p-5 group overflow-hidden bg-white dark:bg-white/5">
+            <div className="relative pl-12 md:pl-4 w-[90%] shadow-black/15 rounded-2xl shadow-xl p-5 group overflow-hidden bg-white dark:bg-white/5">
               {/* Image with Hover Effects */}
               <div className="relative overflow-hidden rounded-lg">
                 <img

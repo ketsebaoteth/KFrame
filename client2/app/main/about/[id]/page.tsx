@@ -9,7 +9,7 @@ import { useQueries } from "@tanstack/react-query";
 import axios from "axios";
 
 export default function About({ params }: { params: { id: string } }) {
-  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL as string;
   const id = params.id;
 
   const queries = [
@@ -63,7 +63,9 @@ export default function About({ params }: { params: { id: string } }) {
       <hr className="mx-4 md:mx-auto md:my-6 border-dashed border-foreground/40 dark:border-foreground/20 max-w-5xl" />
 
       <div className="px-4 md:px-8">
-        <AnimatedTestimonials data={testimonyResult?.data} />
+        {testimonyResult?.data && (
+          <AnimatedTestimonials data={testimonyResult?.data} />
+        )}
       </div>
     </div>
   );

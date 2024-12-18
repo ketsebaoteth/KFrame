@@ -50,20 +50,20 @@ export const auth = betterAuth({
     },
   },
   trustedOrigins: [
-    "https://frame.nerdspacer.com",
-    "https://frame.nerdspacer.com/auth",
-    "https://frame-lovat.vercel.app",
-    "https://frame-lovat.vercel.app/auth",
+    // "https://frame.nerdspacer.com",
+    // "https://frame.nerdspacer.com/auth",
+    // "https://frame-lovat.vercel.app",
+    // "https://frame-lovat.vercel.app/auth",
 
     "http://localhost:3000",
-    "https://frame.nerdspacer.com",
-    "https://frame.nerdspacer.com/auth",
     "http://localhost:3000/auth",
+    "http://localhost:3001",
+    "http://localhost:3001/auth",
   ],
-  advanced: {
-    defaultCookieAttributes: {
-      sameSite: "none",
-      secure: true,
-    },
-  },
+  // advanced: {
+  //   defaultCookieAttributes: {
+  //     sameSite: "none",
+  //     secure: true,
+  //   },
+  // },
 });

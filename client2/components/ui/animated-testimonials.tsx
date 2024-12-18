@@ -2,9 +2,8 @@
 
 import TestimonyInterface from "@/interface/testimony";
 import { IconArrowLeft, IconArrowRight } from "@tabler/icons-react";
-import Image from "next/image";
-import { useState } from "react";
 import { motion } from "framer-motion";
+import { useState } from "react";
 
 export const AnimatedTestimonials = ({
   data,
@@ -32,7 +31,7 @@ export const AnimatedTestimonials = ({
             transition={{ duration: 0.4, ease: "easeInOut" }}
             className="h-full flex items-center justify-center"
           >
-            <Image
+            <img
               src={data[active].imageUrl}
               alt={data[active].name}
               width={320}

@@ -24,27 +24,30 @@ import ErrorUi from "@/components/blocks/error";
 
 const LinksPage = () => {
   type LinkType = z.infer<typeof linkSchema>;
-  const backendurl = process.env.NEXT_PUBLIC_BACKEND_URL;
+  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
   const session = authClient.useSession();
   const queryClient = useQueryClient();
+
+  console.log("Session Data:", session.data); // Debugging session data
 
   const {
     data: fetchedLinks,
     isLoading,
     isError,
-    // isSuccess,
   } = useQuery({
-    queryKey: ["links", session.data?.user.id],
+    queryKey: ["links"],
     queryFn: async () => {
       if (!session.data?.user.id) return;
       const response = await axios.get(
-        `${backendurl}/public/links/${session.data.user.id}`,
+        `${backendUrl}/public/links/${session.data.user.id}`,
         { withCredentials: true }
       );
       return response.data;
     },
-    enabled: !!session.data?.user.id, // Ensure query only runs when session is available
+    enabled: !!session.data?.user.id,
   });
+
+  console.log("Fetched Links:", fetchedLinks); // Debugging fetched links
 
   const {
     register,
@@ -62,23 +65,26 @@ const LinksPage = () => {
   });
 
   useEffect(() => {
-    if (fetchedLinks?.links) {
-      reset(fetchedLinks.links);
+    if (fetchedLinks) {
+      reset(fetchedLinks.links || fetchedLinks);
     }
   }, [fetchedLinks, reset]);
 
   const mutation = useMutation({
     mutationFn: async (data: LinkType) => {
-      const url = `${backendurl}/links`;
       if (fetchedLinks) {
-        await axios.patch(url, data, { withCredentials: true });
+        await axios.patch(`${backendUrl}/links`, data, {
+          withCredentials: true,
+        });
       } else {
-        await axios.post(url, data, { withCredentials: true });
+        await axios.post(`${backendUrl}/links`, data, {
+          withCredentials: true,
+        });
       }
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["links", session.data?.user.id],
+        queryKey: ["links"],
       });
     },
   });
@@ -147,7 +153,7 @@ const LinksPage = () => {
     <div className="space-y-6">
       <h1 className="text-xl font-medium">Social Links</h1>
 
-      <Card className=" bg-white/5 md:w-[95%] rounded-sm dark:border-white/5">
+      <Card className="bg-white/5 md:w-[95%] rounded-sm dark:border-white/5">
         <CardHeader>
           <CardTitle>
             {fetchedLinks ? "Edit Social Links" : "Add Social Links"}

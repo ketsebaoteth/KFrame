@@ -1,7 +1,7 @@
 import { createAuthClient } from "better-auth/react";
 
 const authClient = createAuthClient({
-  baseURL: "https://frame-lovat.vercel.app/api/auth",
+  baseURL: "http://localhost:3000",
 });
 
 export default authClient;

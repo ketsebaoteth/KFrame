@@ -49,7 +49,7 @@ export default function RegisterScreen() {
         password,
         name,
       });
-      router.push("/"); // Redirect to home or other page upon success
+      router.push("/dashboard"); // Redirect to home or other page upon success
     } catch (err) {
       setLoading(false);
       alert("Error: " + err);

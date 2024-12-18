@@ -1,6 +1,6 @@
 import { Context } from "hono";
-import prisma from "../../lib/db";
 import getUser from "../../utils/user";
+import prisma from "../../lib/db";
 
 const updateLink = async (c: Context) => {
   try {
@@ -30,21 +30,26 @@ const updateLink = async (c: Context) => {
     });
 
     if (!linksData) {
-      return c.json(
-        {
-          message: "error happened",
+      // Create a Links record if it doesn't exist
+      linksData = await prisma.links.create({
+        data: {
+          infoId: infoData.id,
+          github: "https://github.com/yeabnoah",
+          linkedIn:
+            "https://www.linkedin.com/in/yeabsra-ashebir-tech-nerd-8a3a80267/",
+          x: "x.com/technerd556",
+          telegram: "t.me/technerd345",
         },
-        500
-      );
+      });
     }
 
     const linksDataFinal = await prisma.links.update({
       where: { infoId: infoData.id },
       data: {
-        github: github,
-        linkedIn: linkedIn,
-        x: x,
-        telegram: telegram,
+        github,
+        linkedIn,
+        x,
+        telegram,
       },
     });
 

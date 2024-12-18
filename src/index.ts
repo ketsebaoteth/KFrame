@@ -24,7 +24,7 @@ const app = new Hono();
 app.use(
   "/*",
   cors({
-    origin: "https://frame-lovat.vercel.app",
+    origin: "http://localhost:3001",
     allowMethods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
     allowHeaders: ["Content-Type", "Authorization"],
     credentials: true, // Enable credentials
@@ -33,7 +33,7 @@ app.use(
 
 app.options("/*", (c) => {
   return c.text("", 204, {
-    "Access-Control-Allow-Origin": "https://frame-lovat.vercel.app",
+    "Access-Control-Allow-Origin": "http://localhost:3001",
     "Access-Control-Allow-Methods":
       "GET, HEAD, PUT, POST, DELETE, PATCH, OPTIONS",
     "Access-Control-Allow-Headers":
