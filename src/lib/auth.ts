@@ -22,8 +22,8 @@ export const auth = betterAuth({
   },
   trustedOrigins: [
     "http://localhost:3000",
-    "http://localhost:3001",
-    "http://localhost:3001/auth",
+    "https://frame.nerdspacer.com",
+    "https://frame.nerdspacer.com/auth",
     "http://localhost:3000/auth",
   ],
 });
