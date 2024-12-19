@@ -24,7 +24,8 @@ const app = new Hono();
 app.use(
   "/*",
   cors({
-    origin: "http://localhost:3001",
+    // origin: "http://localhost:3001",
+    origin: "https://frame-lovat.vercel.app",
     allowMethods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
     allowHeaders: ["Content-Type", "Authorization"],
     credentials: true, // Enable credentials
@@ -33,7 +34,8 @@ app.use(
 
 app.options("/*", (c) => {
   return c.text("", 204, {
-    "Access-Control-Allow-Origin": "http://localhost:3001",
+    // "Access-Control-Allow-Origin": "http://localhost:3001",
+    "Access-Control-Allow-Origin": "https://frame-lovat.vercel.app",
     "Access-Control-Allow-Methods":
       "GET, HEAD, PUT, POST, DELETE, PATCH, OPTIONS",
     "Access-Control-Allow-Headers":
@@ -46,8 +48,8 @@ app.on(["POST", "GET"], "/api/auth/**", (c) => {
   return auth.handler(c.req.raw);
 });
 
-app.get("/api/auth/*", (c) => auth.handler(c.req.raw));
-app.post("/api/auth/*", cors(), (c) => auth.handler(c.req.raw));
+// app.get("/api/auth/*", (c) => auth.handler(c.req.raw));
+// app.post("/api/auth/*", cors(), (c) => auth.handler(c.req.raw));
 
 app.get("/", (c) => {
   return c.text("test confirmed");

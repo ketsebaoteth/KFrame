@@ -50,10 +50,10 @@ export const auth = betterAuth({
     },
   },
   trustedOrigins: [
-    // "https://frame.nerdspacer.com",
-    // "https://frame.nerdspacer.com/auth",
-    // "https://frame-lovat.vercel.app",
-    // "https://frame-lovat.vercel.app/auth",
+    "https://frame.nerdspacer.com",
+    "https://frame.nerdspacer.com/auth",
+    "https://frame-lovat.vercel.app",
+    "https://frame-lovat.vercel.app/auth",
 
     "http://localhost:3000",
     "http://localhost:3000/auth",
