@@ -60,6 +60,12 @@ export const auth = betterAuth({
     "http://localhost:3001",
     "http://localhost:3001/auth",
   ],
+  advanced: {
+    defaultCookieAttributes: {
+      sameSite: "none",
+      secure: true,
+    },
+  },
   // advanced: {
   //   defaultCookieAttributes: {
   //     sameSite: "none",
