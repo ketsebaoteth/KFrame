@@ -32,9 +32,9 @@ export const auth = betterAuth({
     "http://localhost:3001/auth",
   ],
   advanced: {
-    crossSubDomainCookies: {
-      enabled: process.env.NODE_ENV === "production",
-      domain: process.env.NODE_ENV === "production" ? ".nerdspacer.com" : "",
+    defaultCookieAttributes: {
+      sameSite: "none",
+      secure: true,
     },
   },
 });
