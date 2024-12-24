@@ -175,7 +175,7 @@ export default function LoginScreen() {
 
       <div className="hidden lg:flex w-1/2 relative">
         <Image
-          src="/test.jpg"
+          src="/devr.webp"
           alt="Authentication background"
           fill
           className="object-cover"
