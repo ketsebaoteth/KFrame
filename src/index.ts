@@ -35,7 +35,7 @@ app.use(
 app.options("/*", (c) => {
   return c.text("", 204, {
     // "Access-Control-Allow-Origin": "http://localhost:3001",
-    "Access-Control-Allow-Origin": "https://frame.nerdspacer.app",
+    "Access-Control-Allow-Origin": "https://frame.nerdspacer.com",
     "Access-Control-Allow-Methods":
       "GET, HEAD, PUT, POST, DELETE, PATCH, OPTIONS",
     "Access-Control-Allow-Headers":
@@ -45,14 +45,14 @@ app.options("/*", (c) => {
 });
 
 app.on(["POST", "GET"], "/api/auth/**", (c) => {
-  return auth.handler(c.req.raw);
+   return auth.handler(c.req.raw);
 });
 
 app.get("/api/auth/*", (c) => auth.handler(c.req.raw));
 app.post("/api/auth/*", cors(), (c) => auth.handler(c.req.raw));
 
 app.get("/", (c) => {
-  return c.text("test confirmed");
+  return c.text("test confirmed 01");
 });
 
 app.route("/home", homeRouter);

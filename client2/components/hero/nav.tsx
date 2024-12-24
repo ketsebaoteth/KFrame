@@ -7,7 +7,7 @@ export function Nav() {
     <nav className="flex z-10 items-center justify-between p-4 md:before:border-b border-border/40 mx-[5vw] md:mx-[10vw]">
       <div className="flex items-center gap-10">
         <Link
-          href="https://github.com/yeabnoah/frame"
+          href="#"
           className="flex items-center gap-2"
         >
           <div className=" flex flex-row items-center ">

@@ -1,7 +1,7 @@
 import { createAuthClient } from "better-auth/react";
 
 const authClient = createAuthClient({
-  baseURL: "http://localhost:3000",
+  baseURL: "https://frame1.nerdspacer.com",
 });
 
 export default authClient;

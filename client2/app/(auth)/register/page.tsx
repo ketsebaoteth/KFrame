@@ -62,7 +62,7 @@ export default function RegisterScreen() {
     <div className="min-h-screen flex flex-col lg:flex-row  -z-10 ">
       <div className="hidden lg:flex w-1/2 relative">
         <Image
-          src="/test.jpg" // Add your image path here
+          src="/home.webp" // Add your image path here
           alt="Authentication background"
           fill
           className="object-cover"
@@ -245,7 +245,7 @@ export default function RegisterScreen() {
               <span className="text-muted-foreground">
                 Already have an account?{" "}
               </span>
-              <Link href="/" className="text-foreground hover:underline">
+              <Link href="/login" className="text-foreground hover:underline">
                 Sign in
               </Link>
             </div>

@@ -30,14 +30,14 @@ export function Hero() {
 
   return (
     <div className="flex -mt-28 flex-col items-center justify-center flex-1 flex-grow px-4 text-center">
-      <div className="inline-flex items-center justify-center rounded-full bg-muted/50 px-3 py-1 text-sm mb-8">
+      <Link href={"https://github.com/yeabnoah/frame} className="inline-flex items-center justify-center rounded-full bg-muted/50 px-3 py-1 text-sm mb-8">
         <Button variant="ghost" size="sm" className="h-5 gap-2 text-xs">
           <Github className="w-3 h-3" />
           Star
         </Button>
         <div className="h-3 w-[1px] mx-2 bg-border"></div>
         <span>{stars !== null ? stars.toLocaleString() : "..."}</span>
-      </div>
+      </Link>
       <h1 className="text-2xl md:text-6xl font-semibold tracking-tight max-w-4xl mb-6">
         Craft. Publish. Showcase.
       </h1>

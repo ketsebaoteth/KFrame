@@ -31,10 +31,10 @@ export const auth = betterAuth({
     "http://localhost:3001",
     "http://localhost:3001/auth",
   ],
-  advanced: {
-    defaultCookieAttributes: {
-      sameSite: "none",
-      secure: true,
-    },
+   advanced: {
+    crossSubDomainCookies: {
+      enabled: process.env.NODE_ENV === "production",
+      domain: process.env.NODE_ENV === "production" ? ".nerdspacer.com" : "",
+    }
   },
 });

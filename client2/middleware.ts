@@ -7,7 +7,7 @@ export default async function authMiddleware(request: NextRequest) {
   // const frontendUrl = process.env.NEXT_PUBLIC_FRONTEND_URL as string;
 
   const { data: session } = await betterFetch<Session>(
-    `http://localhost:3000/api/auth/get-session`,
+    `https://frame1.nerdspacer.com/api/auth/get-session`,
     {
       baseURL: request.nextUrl.origin,
       headers: {
