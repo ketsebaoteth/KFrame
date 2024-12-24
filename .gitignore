@@ -3,8 +3,14 @@
 **/node_modules/
 node_modules/
 .env
+.env.save
+.env.local
+
+
 
 # Ignore .env in client2 folder
 client2/.env
 
 **/.env
+**/.env.local
+**/.env.save
