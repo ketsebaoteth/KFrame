@@ -30,7 +30,7 @@ export function Hero() {
 
   return (
     <div className="flex -mt-28 flex-col items-center justify-center flex-1 flex-grow px-4 text-center">
-      <Link href={"https://github.com/yeabnoah/frame} className="inline-flex items-center justify-center rounded-full bg-muted/50 px-3 py-1 text-sm mb-8">
+      <Link href={"https://github.com/yeabnoah/frame"} className="inline-flex items-center justify-center rounded-full bg-muted/50 px-3 py-1 text-sm mb-8">
         <Button variant="ghost" size="sm" className="h-5 gap-2 text-xs">
           <Github className="w-3 h-3" />
           Star
@@ -56,6 +56,6 @@ export function Hero() {
           Get Started
         </Link>
       </div>
-    </div>
+    </div >
   );
 }
